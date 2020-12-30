@@ -1,6 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Supply",
+    "\\Supply\\DAL",
+    "\\Supply\\DAL\\JiangTao",
+    "\\Supply\\Supply"
   ],
+  "SelectedNode": "\\Supply\\DAL\\JiangTao",
   "PreviewInSolutionExplorer": false
 }
