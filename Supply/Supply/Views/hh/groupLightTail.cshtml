@@ -1,0 +1,94 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>无标题文档</title>
+    <link href="~/PeiZhi/css/tail.css" rel="stylesheet" type="text/css">
+    <link href="~/PeiZhi/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body style="border-radius: 8px;width: 400px">
+    <form>
+        <div class="top table2_top">
+            <div>
+                <div class="top_out">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>产品编号<span></span></td>
+                                <td colspan="8" style="text-align: left">
+                                    <input type="text" style="width: 306px">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>分组编号<span></span></td>
+                                <td colspan="8" style="text-align: left">
+                                    <input type="text" style="width: 306px">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>状态<span></span></td>
+                                <td colspan="8" style="text-align: left">
+                                    <select>
+                                        <option>未付款</option>
+                                        <option>未发货</option>
+                                        <option>已发货</option>
+                                        <option>已收款</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="notice_bot">
+                <div class="l_left"><input type="checkbox" checked="checked" />保存并关闭窗口</div>
+                <div class="r_right but_p"><button class="but_save" type="submit" onclick="save()">导入</button><button class="but_close" onclick="Cancel()">关闭</button></div>
+            </div>
+        </div>
+    </form>
+
+    <script src="js/jquery-2.2.0.min.js"></script>
+    <script src="js/bstable/js/bootstrap.min.js"></script>
+
+    <script>
+    //取消操作
+
+        $("#OKLogin").live("click", function () {
+            $.ajax({
+                type: "post",
+                dataType: "text",
+                data: { "cp": $("").val(), "zt": $("").val() },
+                url: "/hh/GroupLightTail",
+                success: function (result) {
+                    alert(result);
+                    if (result == "登录成功!") {
+                        lication.href = "/JiangTao/Index";
+                    }
+                },
+                error: function (ex) {
+                    alert(ex.responseText);
+                }
+            });
+        })
+
+    function cancel() {
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    }
+function save() {
+   alert("数据包提交成功，等待导入");
+    cancel();
+
+
+
+}
+    </script>
+</body>
+</html>

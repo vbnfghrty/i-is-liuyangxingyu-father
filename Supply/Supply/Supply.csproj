@@ -120,6 +120,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\huanghe\hhController.cs" />
     <Compile Include="Controllers\JiangTaoController.cs" />
     <Compile Include="Controllers\LiuYangXingYuController.cs" />
     <Compile Include="Global.asax.cs">
@@ -915,6 +916,8 @@
     <Content Include="Views\JiangTao\index.cshtml" />
     <Content Include="Views\JiangTao\Logion.cshtml" />
     <Content Include="Views\JiangTao\DiTu.cshtml" />
+    <Content Include="Views\hh\groupLight.cshtml" />
+    <Content Include="Views\hh\groupLightTail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HuangHe\Class1.cs" />
     <Compile Include="JiangTao\LogionDal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -55,7 +56,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DongQingShang\" />
-    <Folder Include="HuangHe\" />
     <Folder Include="LiuYangXingYu\" />
     <Folder Include="WangJiaYi\" />
   </ItemGroup>
