@@ -7,3 +7,16 @@ C:\Users\Administrator\Desktop\团队项目\团队项目\Supply\DAL\obj\Debug\DA
 C:\Users\Administrator\Desktop\团队项目\团队项目\Supply\DAL\obj\Debug\DAL.csproj.CopyComplete
 C:\Users\Administrator\Desktop\团队项目\团队项目\Supply\DAL\obj\Debug\DAL.dll
 C:\Users\Administrator\Desktop\团队项目\团队项目\Supply\DAL\obj\Debug\DAL.pdb
+E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\DAL\bin\Debug\DAL.dll
+E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\DAL\bin\Debug\DAL.pdb
+E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\DAL\bin\Debug\EntityFramework.dll
+E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\DAL\bin\Debug\Models.dll
+E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\DAL\bin\Debug\Models.pdb
+E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\DAL\bin\Debug\Models.dll.config
+E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\DAL\bin\Debug\EntityFramework.xml
+E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\DAL\bin\Debug\zh-Hans\EntityFramework.resources.dll
+E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\DAL\obj\Debug\DAL.csprojAssemblyReference.cache
+E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
+E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\DAL\obj\Debug\DAL.csproj.CopyComplete
+E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\DAL\obj\Debug\DAL.dll
+E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\DAL\obj\Debug\DAL.pdb

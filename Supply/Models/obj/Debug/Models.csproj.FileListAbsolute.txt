@@ -3,3 +3,14 @@ C:\Users\Administrator\Desktop\团队项目\团队项目\Supply\Models\bin\Debug
 C:\Users\Administrator\Desktop\团队项目\团队项目\Supply\Models\obj\Debug\Models.csproj.CoreCompileInputs.cache
 C:\Users\Administrator\Desktop\团队项目\团队项目\Supply\Models\obj\Debug\Models.dll
 C:\Users\Administrator\Desktop\团队项目\团队项目\Supply\Models\obj\Debug\Models.pdb
+E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\Models\bin\Debug\Models.dll.config
+E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\Models\bin\Debug\Models.dll
+E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\Models\bin\Debug\Models.pdb
+E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\Models\bin\Debug\EntityFramework.dll
+E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\Models\bin\Debug\EntityFramework.xml
+E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\Models\bin\Debug\zh-Hans\EntityFramework.resources.dll
+E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\Models\obj\Debug\Models.csprojAssemblyReference.cache
+E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\Models\obj\Debug\Models.csproj.CoreCompileInputs.cache
+E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\Models\obj\Debug\Models.csproj.CopyComplete
+E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\Models\obj\Debug\Models.dll
+E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\Models\obj\Debug\Models.pdb

@@ -8,9 +8,9 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Logion</title>
-
-    <link href="~/PeiZhi/css/MemberLogin.css" rel="stylesheet" />
+    <link href="~/PeiZhi/css/MemberLogin.css" rel='stylesheet' type='text/css' />
 </head>
 <body style="overflow: hidden">
     <div class="main">
@@ -21,14 +21,16 @@
                 <input type="text" id="username" placehoder="用户名" />
                 <input type="password" id="password" placehoder="登录密码" />
                 <select id="sys">
-                    <option value="1">我是美女</option>
-                    <option value="2">我是帅哥</option>
+                    <option value="1">帅哥</option>
+                    <option value="2">美女</option>
+                    <option value="3">天才</option>
                 </select>
                 <div class="submit">
-                    <input type="button" value="登录" id="btn_login" class="butSyley">
+                    <input type="button" value="登录" id="OKLogin" class="butSyley">
                     <input type="checkbox" id="rememberMe" /><label class="lableStyle">记住密码</label>
                     <a href="#" class="aSyle">忘记密码?</a>
                 </div>
+
             </form>
         </div>
     </div>
@@ -37,34 +39,25 @@
     </div>
     <script src="~/PeiZhi/js/jquery/jQuery-2.2.0.min.js"></script>
     <script>
-        $(document).ready(function () {
-            $('#btn_login').click(function () {
-                debugger;
-                $.ajax({
-                    type: "post",
-                    dataType: "json",
-                    data: {
-                        sys: $("#sys").val(),
-                        username: $("#username").val(),
-                        password: $("#password").val(),
-                        rememberMe: $('#rememberMe').is(":checked") ? 1 : 0
-                    },
-                    url: "/sys/login.shtm",
-                    success: function (result) {
-                        debugger;
-                        if (result.code == 200) {
-                            window.location.href = '/page/index.shtm?sys=' + result.sys;
-                        } else {
-                            alert(result.msg);
-                        }
-                    },
-                    error: function () {
+
+        $("#OKLogin").live("click", function(){
+            $.ajax({
+                type: "post",
+                dataType: "text",
+                data: { "name": $("#username").val(), "pwd": $("#password").val() },
+                url: "/JiangTao/IFLogion",
+                success: function (result) {
+                    alert(result);
+                    if (result == "登录成功!") {
+                        lication.href = "/JiangTao/Index";
                     }
-                });
+
+                },
+                error: function (ex) {
+                    alert(ex.responseText);
+                }
             });
-
-
-        });
+        })
     </script>
 </body>
 </html>

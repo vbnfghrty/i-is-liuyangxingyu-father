@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="SupplyModelStoreContainer" CdmEntityContainer="SupplyEntities">
+    <EntitySetMapping Name="CangKu">
+      <EntityTypeMapping TypeName="SupplyModel.CangKu">
+        <MappingFragment StoreEntitySet="CangKu">
+          <ScalarProperty Name="CKId" ColumnName="CKId" />
+          <ScalarProperty Name="CKName" ColumnName="CKName" />
+          <ScalarProperty Name="CKDiZhi" ColumnName="CKDiZhi" />
+          <ScalarProperty Name="CKChuanJianTime" ColumnName="CKChuanJianTime" />
+          <ScalarProperty Name="CKType" ColumnName="CKType" />
+          <ScalarProperty Name="CKValue1" ColumnName="CKValue1" />
+          <ScalarProperty Name="CKValue2" ColumnName="CKValue2" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ChanPing">
+      <EntityTypeMapping TypeName="SupplyModel.ChanPing">
+        <MappingFragment StoreEntitySet="ChanPing">
+          <ScalarProperty Name="CPId" ColumnName="CPId" />
+          <ScalarProperty Name="JBId" ColumnName="JBId" />
+          <ScalarProperty Name="CKId" ColumnName="CKId" />
+          <ScalarProperty Name="CPSum" ColumnName="CPSum" />
+          <ScalarProperty Name="COYuJing" ColumnName="COYuJing" />
+          <ScalarProperty Name="CPValue1" ColumnName="CPValue1" />
+          <ScalarProperty Name="CPValue2" ColumnName="CPValue2" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ChanPingJiBen">
+      <EntityTypeMapping TypeName="SupplyModel.ChanPingJiBen">
+        <MappingFragment StoreEntitySet="ChanPingJiBen">
+          <ScalarProperty Name="JBId" ColumnName="JBId" />
+          <ScalarProperty Name="JBNmae" ColumnName="JBNmae" />
+          <ScalarProperty Name="JBTeDian" ColumnName="JBTeDian" />
+          <ScalarProperty Name="DWId" ColumnName="DWId" />
+          <ScalarProperty Name="CId" ColumnName="CId" />
+          <ScalarProperty Name="jiage" ColumnName="jiage" />
+          <ScalarProperty Name="JBValue2" ColumnName="JBValue2" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CPClass">
+      <EntityTypeMapping TypeName="SupplyModel.CPClass">
+        <MappingFragment StoreEntitySet="CPClass">
+          <ScalarProperty Name="CId" ColumnName="CId" />
+          <ScalarProperty Name="CName" ColumnName="CName" />
+          <ScalarProperty Name="CBeiZhu" ColumnName="CBeiZhu" />
+          <ScalarProperty Name="CValue1" ColumnName="CValue1" />
+          <ScalarProperty Name="CValue2" ColumnName="CValue2" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DanWei">
+      <EntityTypeMapping TypeName="SupplyModel.DanWei">
+        <MappingFragment StoreEntitySet="DanWei">
+          <ScalarProperty Name="DWId" ColumnName="DWId" />
+          <ScalarProperty Name="DWJiLiangName" ColumnName="DWJiLiangName" />
+          <ScalarProperty Name="DWValue1" ColumnName="DWValue1" />
+          <ScalarProperty Name="DWValue2" ColumnName="DWValue2" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DingDan">
+      <EntityTypeMapping TypeName="SupplyModel.DingDan">
+        <MappingFragment StoreEntitySet="DingDan">
+          <ScalarProperty Name="DDId" ColumnName="DDId" />
+          <ScalarProperty Name="DDTime" ColumnName="DDTime" />
+          <ScalarProperty Name="DDType" ColumnName="DDType" />
+          <ScalarProperty Name="ZHId" ColumnName="ZHId" />
+          <ScalarProperty Name="DDDiZhi" ColumnName="DDDiZhi" />
+          <ScalarProperty Name="DDValue1" ColumnName="DDValue1" />
+          <ScalarProperty Name="DDValue2" ColumnName="DDValue2" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DingDangXX">
+      <EntityTypeMapping TypeName="SupplyModel.DingDangXX">
+        <MappingFragment StoreEntitySet="DingDangXX">
+          <ScalarProperty Name="XXId" ColumnName="XXId" />
+          <ScalarProperty Name="DDId" ColumnName="DDId" />
+          <ScalarProperty Name="JBId" ColumnName="JBId" />
+          <ScalarProperty Name="Sum" ColumnName="Sum" />
+          <ScalarProperty Name="XXValue1" ColumnName="XXValue1" />
+          <ScalarProperty Name="XXValue2" ColumnName="XXValue2" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GeRenZiLiao">
+      <EntityTypeMapping TypeName="SupplyModel.GeRenZiLiao">
+        <MappingFragment StoreEntitySet="GeRenZiLiao">
+          <ScalarProperty Name="ZLId" ColumnName="ZLId" />
+          <ScalarProperty Name="ZHId" ColumnName="ZHId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+          <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="ZLValue1" ColumnName="ZLValue1" />
+          <ScalarProperty Name="ZLValue2" ColumnName="ZLValue2" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="JueSe">
+      <EntityTypeMapping TypeName="SupplyModel.JueSe">
+        <MappingFragment StoreEntitySet="JueSe">
+          <ScalarProperty Name="JueSeId" ColumnName="JueSeId" />
+          <ScalarProperty Name="JueSeName" ColumnName="JueSeName" />
+          <ScalarProperty Name="JSTime" ColumnName="JSTime" />
+          <ScalarProperty Name="JSBeiZhu" ColumnName="JSBeiZhu" />
+          <ScalarProperty Name="JSzhuangtai" ColumnName="JSzhuangtai" />
+          <ScalarProperty Name="JSValue2" ColumnName="JSValue2" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Logion">
+      <EntityTypeMapping TypeName="SupplyModel.Logion">
+        <MappingFragment StoreEntitySet="Logion">
+          <ScalarProperty Name="ZHId" ColumnName="ZHId" />
+          <ScalarProperty Name="ZhName" ColumnName="ZhName" />
+          <ScalarProperty Name="ZHPwd" ColumnName="ZHPwd" />
+          <ScalarProperty Name="JueSeId" ColumnName="JueSeId" />
+          <ScalarProperty Name="ZTId" ColumnName="ZTId" />
+          <ScalarProperty Name="ZHValue1" ColumnName="ZHValue1" />
+          <ScalarProperty Name="ZHValue2" ColumnName="ZHValue2" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="QianTaiYongHu">
+      <EntityTypeMapping TypeName="SupplyModel.QianTaiYongHu">
+        <MappingFragment StoreEntitySet="QianTaiYongHu">
+          <ScalarProperty Name="QTId" ColumnName="QTId" />
+          <ScalarProperty Name="QTName" ColumnName="QTName" />
+          <ScalarProperty Name="QTPwd" ColumnName="QTPwd" />
+          <ScalarProperty Name="QTDiZhi" ColumnName="QTDiZhi" />
+          <ScalarProperty Name="ZTId" ColumnName="ZTId" />
+          <ScalarProperty Name="QTValue1" ColumnName="QTValue1" />
+          <ScalarProperty Name="QTValue2" ColumnName="QTValue2" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ZHType">
+      <EntityTypeMapping TypeName="SupplyModel.ZHType">
+        <MappingFragment StoreEntitySet="ZHType">
+          <ScalarProperty Name="ZTId" ColumnName="ZTId" />
+          <ScalarProperty Name="ZTName" ColumnName="ZTName" />
+          <ScalarProperty Name="JSValue1" ColumnName="JSValue1" />
+          <ScalarProperty Name="JSValue2" ColumnName="JSValue2" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ZHTypeJiLu">
+      <EntityTypeMapping TypeName="SupplyModel.ZHTypeJiLu">
+        <MappingFragment StoreEntitySet="ZHTypeJiLu">
+          <ScalarProperty Name="ZJId" ColumnName="ZJId" />
+          <ScalarProperty Name="ZTId" ColumnName="ZTId" />
+          <ScalarProperty Name="ZHId" ColumnName="ZHId" />
+          <ScalarProperty Name="ZJYuanYing" ColumnName="ZJYuanYing" />
+          <ScalarProperty Name="QTValue1" ColumnName="QTValue1" />
+          <ScalarProperty Name="QTValue2" ColumnName="QTValue2" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

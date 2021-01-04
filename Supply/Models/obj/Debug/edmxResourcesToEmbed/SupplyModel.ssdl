@@ -1,0 +1,356 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SupplyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="CangKu">
+    <Key>
+      <PropertyRef Name="CKId" />
+    </Key>
+    <Property Name="CKId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CKName" Type="nvarchar" MaxLength="20" />
+    <Property Name="CKDiZhi" Type="nvarchar" MaxLength="20" />
+    <Property Name="CKChuanJianTime" Type="date" />
+    <Property Name="CKType" Type="int" />
+    <Property Name="CKValue1" Type="varchar(max)" />
+    <Property Name="CKValue2" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="ChanPing">
+    <Key>
+      <PropertyRef Name="CPId" />
+    </Key>
+    <Property Name="CPId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="JBId" Type="int" />
+    <Property Name="CKId" Type="int" />
+    <Property Name="CPSum" Type="int" />
+    <Property Name="COYuJing" Type="int" />
+    <Property Name="CPValue1" Type="varchar(max)" />
+    <Property Name="CPValue2" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="ChanPingJiBen">
+    <Key>
+      <PropertyRef Name="JBId" />
+    </Key>
+    <Property Name="JBId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="JBNmae" Type="varchar" MaxLength="20" />
+    <Property Name="JBTeDian" Type="nvarchar" MaxLength="50" />
+    <Property Name="DWId" Type="int" />
+    <Property Name="CId" Type="int" />
+    <Property Name="jiage" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="JBValue2" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="CPClass">
+    <Key>
+      <PropertyRef Name="CId" />
+    </Key>
+    <Property Name="CId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CName" Type="nvarchar" MaxLength="20" />
+    <Property Name="CBeiZhu" Type="nvarchar" MaxLength="50" />
+    <Property Name="CValue1" Type="varchar(max)" />
+    <Property Name="CValue2" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="DanWei">
+    <Key>
+      <PropertyRef Name="DWId" />
+    </Key>
+    <Property Name="DWId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DWJiLiangName" Type="nvarchar" MaxLength="20" />
+    <Property Name="DWValue1" Type="varchar(max)" />
+    <Property Name="DWValue2" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="DingDan">
+    <Key>
+      <PropertyRef Name="DDId" />
+    </Key>
+    <Property Name="DDId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DDTime" Type="datetime" />
+    <Property Name="DDType" Type="int" />
+    <Property Name="ZHId" Type="int" />
+    <Property Name="DDDiZhi" Type="nvarchar" MaxLength="50" />
+    <Property Name="DDValue1" Type="varchar(max)" />
+    <Property Name="DDValue2" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="DingDangXX">
+    <Key>
+      <PropertyRef Name="XXId" />
+    </Key>
+    <Property Name="XXId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DDId" Type="int" />
+    <Property Name="JBId" Type="int" />
+    <Property Name="Sum" Type="int" />
+    <Property Name="XXValue1" Type="varchar(max)" />
+    <Property Name="XXValue2" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="GeRenZiLiao">
+    <Key>
+      <PropertyRef Name="ZLId" />
+    </Key>
+    <Property Name="ZLId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ZHId" Type="int" />
+    <Property Name="Name" Type="nvarchar" MaxLength="20" />
+    <Property Name="Birthday" Type="date" />
+    <Property Name="EntryDate" Type="date" />
+    <Property Name="Email" Type="varchar" MaxLength="50" />
+    <Property Name="ZLValue1" Type="varchar(max)" />
+    <Property Name="ZLValue2" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="JueSe">
+    <Key>
+      <PropertyRef Name="JueSeId" />
+    </Key>
+    <Property Name="JueSeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="JueSeName" Type="nvarchar" MaxLength="20" />
+    <Property Name="JSTime" Type="date" />
+    <Property Name="JSBeiZhu" Type="nvarchar" MaxLength="20" />
+    <Property Name="JSzhuangtai" Type="int" />
+    <Property Name="JSValue2" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="Logion">
+    <Key>
+      <PropertyRef Name="ZHId" />
+    </Key>
+    <Property Name="ZHId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ZhName" Type="varchar" MaxLength="50" />
+    <Property Name="ZHPwd" Type="varchar" MaxLength="20" />
+    <Property Name="JueSeId" Type="int" Nullable="false" />
+    <Property Name="ZTId" Type="int" />
+    <Property Name="ZHValue1" Type="varchar(max)" />
+    <Property Name="ZHValue2" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="QianTaiYongHu">
+    <Key>
+      <PropertyRef Name="QTId" />
+    </Key>
+    <Property Name="QTId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="QTName" Type="varchar" MaxLength="20" />
+    <Property Name="QTPwd" Type="varchar" MaxLength="20" />
+    <Property Name="QTDiZhi" Type="nvarchar" MaxLength="20" />
+    <Property Name="ZTId" Type="int" />
+    <Property Name="QTValue1" Type="varchar(max)" />
+    <Property Name="QTValue2" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="ZHType">
+    <Key>
+      <PropertyRef Name="ZTId" />
+    </Key>
+    <Property Name="ZTId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ZTName" Type="nvarchar" MaxLength="20" />
+    <Property Name="JSValue1" Type="varchar(max)" />
+    <Property Name="JSValue2" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="ZHTypeJiLu">
+    <Key>
+      <PropertyRef Name="ZJId" />
+    </Key>
+    <Property Name="ZJId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ZTId" Type="int" />
+    <Property Name="ZHId" Type="int" />
+    <Property Name="ZJYuanYing" Type="nvarchar" MaxLength="50" />
+    <Property Name="QTValue1" Type="varchar(max)" />
+    <Property Name="QTValue2" Type="varchar(max)" />
+  </EntityType>
+  <Association Name="FK_ChanPing_CangKu">
+    <End Role="CangKu" Type="Self.CangKu" Multiplicity="0..1" />
+    <End Role="ChanPing" Type="Self.ChanPing" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CangKu">
+        <PropertyRef Name="CKId" />
+      </Principal>
+      <Dependent Role="ChanPing">
+        <PropertyRef Name="CKId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ChanPing_ChanPingJiBen">
+    <End Role="ChanPingJiBen" Type="Self.ChanPingJiBen" Multiplicity="1" />
+    <End Role="ChanPing" Type="Self.ChanPing" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="ChanPingJiBen">
+        <PropertyRef Name="JBId" />
+      </Principal>
+      <Dependent Role="ChanPing">
+        <PropertyRef Name="CPId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ChanPingJiBen_CPClass">
+    <End Role="CPClass" Type="Self.CPClass" Multiplicity="0..1" />
+    <End Role="ChanPingJiBen" Type="Self.ChanPingJiBen" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CPClass">
+        <PropertyRef Name="CId" />
+      </Principal>
+      <Dependent Role="ChanPingJiBen">
+        <PropertyRef Name="CId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ChanPingJiBen_DanWei">
+    <End Role="DanWei" Type="Self.DanWei" Multiplicity="0..1" />
+    <End Role="ChanPingJiBen" Type="Self.ChanPingJiBen" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DanWei">
+        <PropertyRef Name="DWId" />
+      </Principal>
+      <Dependent Role="ChanPingJiBen">
+        <PropertyRef Name="DWId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DingDangXX_ChanPingJiBen">
+    <End Role="ChanPingJiBen" Type="Self.ChanPingJiBen" Multiplicity="0..1" />
+    <End Role="DingDangXX" Type="Self.DingDangXX" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ChanPingJiBen">
+        <PropertyRef Name="JBId" />
+      </Principal>
+      <Dependent Role="DingDangXX">
+        <PropertyRef Name="JBId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DingDangXX_DingDan">
+    <End Role="DingDan" Type="Self.DingDan" Multiplicity="0..1" />
+    <End Role="DingDangXX" Type="Self.DingDangXX" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DingDan">
+        <PropertyRef Name="DDId" />
+      </Principal>
+      <Dependent Role="DingDangXX">
+        <PropertyRef Name="DDId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GeRenZiLiao_Logion">
+    <End Role="Logion" Type="Self.Logion" Multiplicity="0..1" />
+    <End Role="GeRenZiLiao" Type="Self.GeRenZiLiao" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Logion">
+        <PropertyRef Name="ZHId" />
+      </Principal>
+      <Dependent Role="GeRenZiLiao">
+        <PropertyRef Name="ZHId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Logion_JueSe">
+    <End Role="JueSe" Type="Self.JueSe" Multiplicity="1" />
+    <End Role="Logion" Type="Self.Logion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="JueSe">
+        <PropertyRef Name="JueSeId" />
+      </Principal>
+      <Dependent Role="Logion">
+        <PropertyRef Name="JueSeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Logion_ZHType">
+    <End Role="ZHType" Type="Self.ZHType" Multiplicity="0..1" />
+    <End Role="Logion" Type="Self.Logion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ZHType">
+        <PropertyRef Name="ZTId" />
+      </Principal>
+      <Dependent Role="Logion">
+        <PropertyRef Name="ZTId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QianTaiYongHu_ZHType">
+    <End Role="ZHType" Type="Self.ZHType" Multiplicity="0..1" />
+    <End Role="QianTaiYongHu" Type="Self.QianTaiYongHu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ZHType">
+        <PropertyRef Name="ZTId" />
+      </Principal>
+      <Dependent Role="QianTaiYongHu">
+        <PropertyRef Name="ZTId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ZHTypeJiLu_Logion">
+    <End Role="Logion" Type="Self.Logion" Multiplicity="0..1" />
+    <End Role="ZHTypeJiLu" Type="Self.ZHTypeJiLu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Logion">
+        <PropertyRef Name="ZHId" />
+      </Principal>
+      <Dependent Role="ZHTypeJiLu">
+        <PropertyRef Name="ZHId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ZHTypeJiLu_ZHType">
+    <End Role="ZHType" Type="Self.ZHType" Multiplicity="0..1" />
+    <End Role="ZHTypeJiLu" Type="Self.ZHTypeJiLu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ZHType">
+        <PropertyRef Name="ZTId" />
+      </Principal>
+      <Dependent Role="ZHTypeJiLu">
+        <PropertyRef Name="ZTId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="SupplyModelStoreContainer">
+    <EntitySet Name="CangKu" EntityType="Self.CangKu" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ChanPing" EntityType="Self.ChanPing" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ChanPingJiBen" EntityType="Self.ChanPingJiBen" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CPClass" EntityType="Self.CPClass" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DanWei" EntityType="Self.DanWei" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DingDan" EntityType="Self.DingDan" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DingDangXX" EntityType="Self.DingDangXX" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GeRenZiLiao" EntityType="Self.GeRenZiLiao" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="JueSe" EntityType="Self.JueSe" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Logion" EntityType="Self.Logion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="QianTaiYongHu" EntityType="Self.QianTaiYongHu" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ZHType" EntityType="Self.ZHType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ZHTypeJiLu" EntityType="Self.ZHTypeJiLu" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_ChanPing_CangKu" Association="Self.FK_ChanPing_CangKu">
+      <End Role="CangKu" EntitySet="CangKu" />
+      <End Role="ChanPing" EntitySet="ChanPing" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ChanPing_ChanPingJiBen" Association="Self.FK_ChanPing_ChanPingJiBen">
+      <End Role="ChanPingJiBen" EntitySet="ChanPingJiBen" />
+      <End Role="ChanPing" EntitySet="ChanPing" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ChanPingJiBen_CPClass" Association="Self.FK_ChanPingJiBen_CPClass">
+      <End Role="CPClass" EntitySet="CPClass" />
+      <End Role="ChanPingJiBen" EntitySet="ChanPingJiBen" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ChanPingJiBen_DanWei" Association="Self.FK_ChanPingJiBen_DanWei">
+      <End Role="DanWei" EntitySet="DanWei" />
+      <End Role="ChanPingJiBen" EntitySet="ChanPingJiBen" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DingDangXX_ChanPingJiBen" Association="Self.FK_DingDangXX_ChanPingJiBen">
+      <End Role="ChanPingJiBen" EntitySet="ChanPingJiBen" />
+      <End Role="DingDangXX" EntitySet="DingDangXX" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DingDangXX_DingDan" Association="Self.FK_DingDangXX_DingDan">
+      <End Role="DingDan" EntitySet="DingDan" />
+      <End Role="DingDangXX" EntitySet="DingDangXX" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GeRenZiLiao_Logion" Association="Self.FK_GeRenZiLiao_Logion">
+      <End Role="Logion" EntitySet="Logion" />
+      <End Role="GeRenZiLiao" EntitySet="GeRenZiLiao" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Logion_JueSe" Association="Self.FK_Logion_JueSe">
+      <End Role="JueSe" EntitySet="JueSe" />
+      <End Role="Logion" EntitySet="Logion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Logion_ZHType" Association="Self.FK_Logion_ZHType">
+      <End Role="ZHType" EntitySet="ZHType" />
+      <End Role="Logion" EntitySet="Logion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QianTaiYongHu_ZHType" Association="Self.FK_QianTaiYongHu_ZHType">
+      <End Role="ZHType" EntitySet="ZHType" />
+      <End Role="QianTaiYongHu" EntitySet="QianTaiYongHu" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ZHTypeJiLu_Logion" Association="Self.FK_ZHTypeJiLu_Logion">
+      <End Role="Logion" EntitySet="Logion" />
+      <End Role="ZHTypeJiLu" EntitySet="ZHTypeJiLu" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ZHTypeJiLu_ZHType" Association="Self.FK_ZHTypeJiLu_ZHType">
+      <End Role="ZHType" EntitySet="ZHType" />
+      <End Role="ZHTypeJiLu" EntitySet="ZHTypeJiLu" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
