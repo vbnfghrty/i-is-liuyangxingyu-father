@@ -464,6 +464,7 @@
     <Content Include="PeiZhi\js\jquery.media.js" />
     <Content Include="PeiZhi\js\jquery.treetable.js" />
     <Content Include="PeiZhi\js\jquery\jQuery-2.2.0.min.js" />
+    <Content Include="PeiZhi\js\jquery\jquery-3.4.1.min.js" />
     <Content Include="PeiZhi\js\layer_v2.1\demo.html" />
     <Content Include="PeiZhi\js\layer_v2.1\layer\extend\layer.ext.js" />
     <Content Include="PeiZhi\js\layer_v2.1\layer\layer.js" />

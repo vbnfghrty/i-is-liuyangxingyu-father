@@ -13,9 +13,7 @@ namespace Supply.Controllers
         // GET: ShoYe
         public ActionResult index()
         {
-            string d = "1,2,3,4";
-            string ddd = string.Join(",", d);
-            return View(ddd);
+            return View();
         }
         public ActionResult Logion() {
             return View();
