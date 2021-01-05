@@ -9,760 +9,244 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>DiTu</title>
-    <link href="~/PeiZhi/js/bstable/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/PeiZhi/css/table.css" rel="stylesheet" type="text/css">
-    <link href="~/PeiZhi/css/baidu.css" rel="stylesheet" type="text/css">
-    <link rel="~/PeiZhi/stylesheet" href="js/artDialog/skins/default.css" type="text/css" />
-    <link href="~/PeiZhi/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" type="text/css" />
+    <link href="~/PeiZhi/css/DiTustyle.css" rel="stylesheet" />
+    <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=2COzFaICuIyVj7V3VetKfmdRVnX8BhVr"></script>
+
 </head>
-<body style="background-color: #ecf0f5;font-family: 微软雅黑;color: #475059;min-width: 1000px;overflow: auto;">
-    <div class="notice_main" style="background-color: #ccc">
-        <div class="myMap_left l_left">
-            <div class="carSearch">
-                <h5>轨迹设置</h5>
-                <div>
-                    <p>
-                        <label>时间段：</label><input type="date" style="margin:0 4px"> — <input type="date" style="margin-left: 4px">
-                    </p>
-                    <p>
-                        <label>车速：</label>
-                        <select id="carSelect">
-                            <option value="500">500m/s</option>
-                            <option value="1000">1000m/s</option>
-                            <option value="2000">2000m/s</option>
-                            <option value="4000">4000m/s</option>
-                        </select>
-                    </p>
+<body>
 
+    <div class="w1150">
+        <div class="video-wrapper">
+            <div class="map-top clearfix">
+                <div class="location-cur-pos js-cur-position">
+                    <span class="location-col-red" id="location-name">【湖北省】</span> 附近共有<span class="location-col-red" id="store-num">0</span>个销售网点
                 </div>
-                <div class="carBtn">
-                    <button class="btn btn-sm btn-primary" onClick="carInfo()">开始</button><button class="btn btn-sm btn-danger" onClick="carMove()">取消</button>
+                <div class="location-section form-section js-location-select clearfix">
+                    <div class="xm-select" style="float: left;">
+                        <div class="dropdown">
+                            <label class="iconfont" for="city">∨</label>
+                            <select id="province" class="js-province" name="addr_province">
+                                <option value="辽宁省">辽宁省</option>
+                                <option value="北京市">北京市</option>
+                                <option value="天津市">天津市</option>
+                                <option value="山西省">山西省</option>
+                                <option value="河北省">河北省</option>
+                                <option value="山东省">山东省</option>
+                                <option value="上海市">上海市</option>
+                                <option value="江苏省">江苏省</option>
+                                <option value="浙江省">浙江省</option>
+                                <option value="安微省">安微省</option>
+                                <option value="重庆市">重庆市</option>
+                                <option value="贵州省">贵州省</option>
+                                <option value="四川省">四川省</option>
+                                <option value="河南省">河南省</option>
+                                <option value="福建省">福建省</option>
+                                <option value="湖北省" selected="selected">湖北省</option>
+                                <option value="湖南省">湖南省</option>
+                                <option value="江西省">江西省</option>
+                                <option value="广东省">广东省</option>
+                                <option value="广西壮族自治区">广西壮族自治区</option>
+                                <option value="陕西省">陕西省</option>
+                                <option value="甘肃省">甘肃省</option>
+                                <option value="内蒙古自治区">内蒙古自治区</option>
+                                <option value="新疆维吾尔自治区">新疆维吾尔自治区</option>
+                                <option value="青海省">青海省</option>
+                                <option value="安徽省">安徽省</option>
+                                <option value="广西省">广西省</option>
+                                <option value="海南省">海南省</option>
+                                <option value="黑龙江">黑龙江</option>
+                                <option value="重庆">重庆</option>
+                                <option value="新疆省">新疆省</option>
+                                <option value="福建">福建</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="map" id="allmap"></div>
-            <div class="notice">
-                <p>成都市 晴 18-20℃</p>
-
-                <div class="map_btn">
-                    <span class="glyphicon glyphicon-fullscreen first"></span><span class="two">全屏</span>
-                </div>
-                <div class="map_btn"><span class="glyphicon glyphicon-wrench first"></span><span class="two">工具</span></div>
-                <div class="map_btn"><span class="glyphicon glyphicon-search first"></span><span class="two">搜索</span></div>
-
-                <div class="map_btn">
-                    <span class="glyphicon glyphicon-screenshot first"></span><span class="two">对比</span>
-                </div>
-                <div class="map_btn">
-                    <span class="glyphicon glyphicon-zoom-out first"></span><span class="two">放大</span>
-                </div>
-                <div class="map_btn">
-                    <span class="glyphicon glyphicon-zoom-in first"></span><span class="two">缩小</span>
-                </div>
-                <div class="map_btn">
-                    <span class="glyphicon glyphicon-pencil first"></span><span class="two">图层选择</span>
-                </div>
-
-            </div>
-            <div class="bill">
-                <p>功能菜单<span class="glyphicon glyphicon-chevron-up" id="listDown" onClick="listDown()"></span><span class="glyphicon glyphicon-chevron-down" id="listUp" onClick="listUp()" style="display: none"></span></p>
-                <ul style="background-color: rgb(84, 122, 169)" class="list">
-                    <li>
-                        <input type="checkbox" name="person"><span>路灯</span>
-                        <div class="clear"></div>
-                    </li>
-
-                    <li>
-                        <input type="checkbox" name="video"><span>摄像头</span>
-                        <div class="clear"></div>
-                    </li>
-                    <li>
-                        <input type="checkbox" name="hot"><span>热力图</span>
-                        <div class="clear"></div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="myMap_right l_left">
-            <div class="myMapNav">
-                <ul>
-                    <li class="liActive">报警信息</li>
-                    <li>视频监控</li>
-                    <li>灯具检索</li>
-                </ul>
-                <div class="clear"></div>
-            </div>
-            <div class="myMapContent">
-                <div class="warn box">
-                    <div class="EChart">
-                        <h6 style="color: #64adcf">报警信息</h6>
-                        <div class="informationMain">
-                            <ul>
-                                <li>
-                                    <div>
-                                        <p class="l_left text">类型：设备损坏</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <p class="r_right text1"><span>名称：</span><span class="red">灯箱</span></p>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>地址：成都市高新区天华路211号</p>
-                                    <p>时间：2018-05-10  14:12</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text">类型：设备损坏</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <p class="r_right text1"><span>名称：</span><span class="red">灯箱</span></p>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>地址：成都市高新区天华路211号</p>
-                                    <p>时间：2018-05-10  14:12</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text">类型：设备损坏</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <p class="r_right text1"><span>名称：</span><span class="red">灯箱</span></p>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>地址：成都市高新区天华路211号</p>
-                                    <p>时间：2018-05-10  14:12</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text">类型：设备损坏</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <p class="r_right text1"><span>名称：</span><span class="red">灯箱</span></p>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>地址：成都市高新区天华路211号</p>
-                                    <p>时间：2018-05-10  14:12</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text">类型：设备损坏</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <p class="r_right text1"><span>名称：</span><span class="red">灯箱</span></p>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>地址：成都市高新区天华路211号</p>
-                                    <p>时间：2018-05-10  14:12</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text">类型：设备损坏</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <p class="r_right text1"><span>名称：</span><span class="red">灯箱</span></p>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>地址：成都市高新区天华路211号</p>
-                                    <p>时间：2018-05-10  14:12</p>
-                                </li>
-                            </ul>
-                            <div class="tcdPageCode">
-                                <ul>
-                                    <li>上一页</li>
-                                    <li>下一页</li>
-                                    <li class="pages">共10页</li>
-                                    <li class="page">共50条</li>
-                                </ul>
-                            </div>
-                        </div>
+            <div class="location-main">
+                <div class="fl location-shop-con">
+                    <div class="search-box">
+                        <input class="search-input" id="search_box_input" type="text" placeholder="请输入要检索的线下销售网点信息">
+                        <span class="search-icon"></span>
                     </div>
-                </div>
-                <div class="special box">
-                    <div class="mapSearch">
-                        <label>视频编号：</label> <input class="easyui-searchbox" placeholder="请输入视频编号" />
-                        <span class="glyphicon glyphicon-search"></span>
-                    </div>
-                    <div class="videoTree">
-                        <ul id="treeDemo" class="ztree"></ul>
-
-                        <div class="clear"></div>
-                    </div>
-                    <div class="specialInformation" style="display: none">
-                        <div class="mapResult">
-                            <span class="spanMap">查询结果</span>
-                            <div class="r_right">
-                                <button onClick="back()" class="btn-primary btn btn-xs">返回</button>
-                            </div>
-                        </div>
-                        <div class="mapResultMain">
-                            <ul>
-                                <li>
-                                    <div>
-                                        <p class="l_left text">梦想生活超市</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>地址：成都市高新区天华路211号</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text">梦想生活超市</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>地址：成都市高新区天华路211号</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text">梦想生活超市</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>地址：成都市高新区天华路211号</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text">梦想生活超市</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>地址：成都市高新区天华路211号</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text">梦想生活超市</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>地址：成都市高新区天华路211号</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text">梦想生活超市</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>地址：成都市高新区天华路211号</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text">梦想生活超市</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>地址：成都市高新区天华路211号</p>
-                                </li>
-                            </ul>
-                            <div class="tcdPageCode">
-                                <ul>
-                                    <li>上一页</li>
-                                    <li>下一页</li>
-                                    <li class="pages">共10页</li>
-                                    <li class="page">共50条</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="specialInformation person" style="display: none">
-                        <div class="mapResult">
-                            <span class="spanMap">查询结果</span>
-                            <div class="r_right">
-                                <button onClick="back()" class="btn-primary btn btn-xs">返回</button>
-                            </div>
-                        </div>
-                        <div class="mapResultMain">
-                            <ul>
-                                <li>
-                                    <div>
-                                        <p class="l_left text">姓名：李杰</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <button class="r_right text1 btn btn-primary btn-xs" onClick="personTrail()">人员轨迹</button>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>地址：成都市高新区天华路211号</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text">姓名：李杰</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <button class="r_right text1 btn btn-primary btn-xs" onClick="personTrail()">人员轨迹</button>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>地址：成都市高新区天华路211号</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text">姓名：李杰</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <button class="r_right text1 btn btn-primary btn-xs" onClick="personTrail()">人员轨迹</button>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>地址：成都市高新区天华路211号</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text">姓名：李杰</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <button class="r_right text1 btn btn-primary btn-xs" onClick="personTrail()">人员轨迹</button>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>地址：成都市高新区天华路211号</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text">姓名：李杰</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <button class="r_right text1 btn btn-primary btn-xs" onClick="personTrail()">人员轨迹</button>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>地址：成都市高新区天华路211号</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text">姓名：李杰</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <button class="r_right text1 btn btn-primary btn-xs" onClick="personTrail()">人员轨迹</button>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>地址：成都市高新区天华路211号</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text">姓名：李杰</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <button class="r_right text1 btn btn-primary btn-xs" onClick="personTrail()">人员轨迹</button>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>地址：成都市高新区天华路211号</p>
-                                </li>
-                            </ul>
-                            <div class="tcdPageCode">
-                                <ul>
-                                    <li>上一页</li>
-                                    <li>下一页</li>
-                                    <li class="pages">共10页</li>
-                                    <li class="page">共50条</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="specialInformation car" style="display: none">
-                        <div class="mapResult">
-                            <span class="spanMap">查询结果</span>
-                            <div class="r_right">
-                                <button onClick="back()" class="btn-primary btn btn-xs">返回</button>
-                            </div>
-                        </div>
-                        <div class="mapResultMain">
-                            <ul>
-                                <li>
-                                    <div>
-                                        <p class="l_left text">车牌号：川A9548</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <button class="r_right text1 btn btn-primary btn-xs" onClick="carTrail()">车辆轨迹</button>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>地址：成都市高新区天华路211号</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text">车牌号：川A9548</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <button class="r_right text1 btn btn-primary btn-xs" onClick="carTrail()">车辆轨迹</button>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>地址：成都市高新区天华路211号</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text">车牌号：川A9548</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <button class="r_right text1 btn btn-primary btn-xs" onClick="carTrail()">车辆轨迹</button>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>地址：成都市高新区天华路211号</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text">车牌号：川A9548</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <button class="r_right text1 btn btn-primary btn-xs" onClick="carTrail()">车辆轨迹</button>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>地址：成都市高新区天华路211号</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text">车牌号：川A9548</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <button class="r_right text1 btn btn-primary btn-xs" onClick="carTrail()">车辆轨迹</button>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>地址：成都市高新区天华路211号</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text">车牌号：川A9548</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <button class="r_right text1 btn btn-primary btn-xs" onClick="carTrail()">车辆轨迹</button>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>地址：成都市高新区天华路211号</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text">车牌号：川A9548</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <button class="r_right text1 btn btn-primary btn-xs" onClick="carTrail()">车辆轨迹</button>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>地址：成都市高新区天华路211号</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text">车牌号：川A9548</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <button class="r_right text1 btn btn-primary btn-xs" onClick="carTrail()">车辆轨迹</button>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>地址：成都市高新区天华路211号</p>
-                                </li>
-                            </ul>
-                            <div class="tcdPageCode">
-                                <ul>
-                                    <li>上一页</li>
-                                    <li>下一页</li>
-                                    <li class="pages">共10页</li>
-                                    <li class="page">共50条</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="specialInformation equipment" style="display: none">
-                        <div class="mapResult">
-                            <span class="spanMap">查询结果</span>
-                            <div class="r_right">
-                                <button onClick="back()" class="btn-primary btn btn-xs">返回</button>
-                            </div>
-                        </div>
-                        <div class="mapResultMain">
-                            <ul>
-                                <li>
-                                    <div>
-                                        <p class="l_left text"> 编号：JC2776</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <p class="r_right text1"><span>检测值：</span><span class="red">50~100</span></p>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>地址：成都市高新区天华路211号</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text"> 编号：JC2776</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <p class="r_right text1"><span>检测值：</span><span class="green">0~20</span></p>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>地址：成都市高新区天华路211号</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text"> 编号：JC2776</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <p class="r_right text1"><span>检测值：</span><span class="yellow">20~50</span></p>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>地址：成都市高新区天华路211号</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text"> 编号：JC2776</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <p class="r_right text1"><span>检测值：</span><span class="red">50~100</span></p>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>地址：成都市高新区天华路211号</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text"> 编号：JC2776</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <p class="r_right text1"><span>检测值：</span><span class="green">0~20</span></p>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>地址：成都市高新区天华路211号</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text"> 编号：JC2776</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <p class="r_right text1"><span>检测值：</span><span class="yellow">20~50</span></p>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>地址：成都市高新区天华路211号</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text"> 编号：JC2776</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <p class="r_right text1"><span>检测值：</span><span class="red">50~100</span></p>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>地址：成都市高新区天华路211号</p>
-                                </li>
-                            </ul>
-                            <div class="tcdPageCode">
-                                <ul>
-                                    <li>上一页</li>
-                                    <li>下一页</li>
-                                    <li class="pages">共10页</li>
-                                    <li class="page">共50条</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="specialInformation video" style="display: none">
-                        <div class="mapResult">
-                            <span class="spanMap">查询结果</span>
-                            <div class="r_right">
-                                <button onClick="back()" class="btn-primary btn btn-xs">返回</button>
-                            </div>
-                        </div>
-                        <div class="mapResultMain">
-                            <ul>
-                                <li>
-                                    <div>
-                                        <p class="l_left text"> 型号：SX4568</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <button class="r_right text1 btn btn-primary btn-xs">观看视频</button>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>位置：成都市高新区天华路211号</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text"> 型号：SX4568</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <button class="r_right text1 btn btn-primary btn-xs">观看视频</button>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>位置：成都市高新区天华路211号</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text"> 型号：SX4568</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <button class="r_right text1 btn btn-primary btn-xs">观看视频</button>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>位置：成都市高新区天华路211号</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text"> 型号：SX4568</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <button class="r_right text1 btn btn-primary btn-xs">观看视频</button>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>位置：成都市高新区天华路211号</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text"> 型号：SX4568</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <button class="r_right text1 btn btn-primary btn-xs">观看视频</button>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>位置：成都市高新区天华路211号</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text"> 型号：SX4568</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <button class="r_right text1 btn btn-primary btn-xs">观看视频</button>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>位置：成都市高新区天华路211号</p>
-                                </li>
-                                <li>
-                                    <div>
-                                        <p class="l_left text"> 型号：SX4568</p>
-                                        <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                        <button class="r_right text1 btn btn-primary btn-xs">观看视频</button>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <p>位置：成都市高新区天华路211号</p>
-                                </li>
-                            </ul>
-                            <div class="tcdPageCode">
-                                <ul>
-                                    <li>上一页</li>
-                                    <li>下一页</li>
-                                    <li class="pages">共10页</li>
-                                    <li class="page">共50条</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="information box">
-                    <div class="mapSearch">
-                        <label>模糊查询：</label> <input class="easyui-searchbox" placeholder="请输入关键字" />
-                        <span class="glyphicon glyphicon-search"></span>
-                    </div>
-                    <div class="mapResult">
-                        <span class="spanMap">查询结果</span>
-                        <div class="r_right">
-                            <button class="btn btn-primary btn-xs">刷新</button>
-                        </div>
-                    </div>
-                    <div class="informationMain">
-                        <ul>
-                            <li>
-                                <div>
-                                    <p class="l_left text">名称：公园路灯</p>
-                                    <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                    <p class="r_right text1"><span>类型：</span><span class="red">路灯</span></p>
-                                    <div class="clear"></div>
-                                </div>
-                                <p>地址：成都市高新区天华路211号</p>
-                            </li>
-                            <li>
-                                <div>
-                                    <p class="l_left text">名称：公园灯箱</p>
-                                    <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                    <p class="r_right text1"><span>类型：</span><span class="red">灯箱</span></p>
-                                    <div class="clear"></div>
-                                </div>
-                                <p>地址：成都市高新区天华路211号</p>
-                            </li>
-                            <li>
-                                <div>
-                                    <p class="l_left text">名称：公园路灯</p>
-                                    <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                    <p class="r_right text1"><span>类型：</span><span class="red">路灯</span></p>
-                                    <div class="clear"></div>
-                                </div>
-                                <p>地址：成都市高新区天华路211号</p>
-                            </li>
-                            <li>
-                                <div>
-                                    <p class="l_left text">名称：公园路灯</p>
-                                    <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                    <p class="r_right text1"><span>类型：</span><span class="red">路灯</span></p>
-                                    <div class="clear"></div>
-                                </div>
-                                <p>地址：成都市高新区天华路211号</p>
-                            </li>
-                            <li>
-                                <div>
-                                    <p class="l_left text">名称：公园路灯</p>
-                                    <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                    <p class="r_right text1"><span>类型：</span><span class="red">路灯</span></p>
-                                    <div class="clear"></div>
-                                </div>
-                                <p>地址：成都市高新区天华路211号</p>
-                            </li>
-                            <li>
-                                <div>
-                                    <p class="l_left text">名称：公园路灯</p>
-                                    <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                    <p class="r_right text1"><span>类型：</span><span class="red">路灯</span></p>
-                                    <div class="clear"></div>
-                                </div>
-                                <p>地址：成都市高新区天华路211号</p>
-                            </li>
-                            <li>
-                                <div>
-                                    <p class="l_left text">名称：公园路灯</p>
-                                    <span class="r_right"><img src="~/PeiZhi/img/find01.png" onClick="theLocation()"></span>
-                                    <p class="r_right text1"><span>类型：</span><span class="red">路灯</span></p>
-                                    <div class="clear"></div>
-                                </div>
-                                <p>地址：成都市高新区天华路211号</p>
-                            </li>
+                    <div class="location-shop-detail">
+                        <ul class="location-list js-store" id="store-list" style="height:450px;overflow: scroll">
                         </ul>
-                        <div class="tcdPageCode">
-                            <ul>
-                                <li>上一页</li>
-                                <li>下一页</li>
-                                <li class="pages">共10页</li>
-                                <li class="page">共50条</li>
-                            </ul>
+                        <div class="xm-controls xm-controls-small js-pager-controls" page="1" style="float: left;">
                         </div>
+                    </div>
+                </div>
+                <div class="location-map">
+                    <div id="container" style="width: 100%; height: 100%; overflow: hidden; position: relative; z-index: 0; background-color: rgb(243, 241, 236); color: rgb(0, 0, 0); text-align:left;">
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="content"></div>
-    <div class="wrench content">
-    </div>
-    <div class="search content">
-        <input type="text">
-        <button class="glyphicon glyphicon-search"></button>
     </div>
     <script src="~/PeiZhi/js/jquery/jQuery-2.2.0.min.js"></script>
-    <script src="~/PeiZhi/js/artDialog/artDialog.js"></script>
-    <script src="~/PeiZhi/js/artDialog/plugins/iframeTools.source.js"></script>
-    <script type="text/javascript" src="~/PeiZhi/js/ztree/jquery.ztree.core-3.5.js"></script>
-    <script type="text/javascript" src="~/PeiZhi/js/ztree/jquery.ztree.excheck-3.5.js"></script>
-    <script type="text/javascript" src="~/PeiZhi/js/ztree/jquery.ztree.exedit-3.5.js"></script>
-    <script src="~/PeiZhi/js/listTree.js"></script>
-    <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=5ieMMexWmzB9jivTq6oCRX9j"></script>
-    <script type="text/javascript"
-            src="https://api.map.baidu.com/library/AreaRestriction/1.2/src/AreaRestriction_min.js"></script>
-    <script type="text/javascript"
-            src="https://api.map.baidu.com/library/RectangleZoom/1.2/src/RectangleZoom_min.js"></script>
-    <script type="text/javascript"
-            src="https://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
-    <script type="text/javascript"
-            src="https://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script>
-    <!--车辆轨迹-->
-    <script type="text/javascript"
-            src="https://api.map.baidu.com/library/LuShu/1.2/src/LuShu_min.js"></script>
-    <!--热力图-->
-    <script type="text/javascript"
-            src="https://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>
-    <script src="~/PeiZhi/js/baidu.js"></script>
-    <script type="text/javascript">
+    <script>
+    var map = new BMap.Map("container");          // 创建地图实例     // 初始化地图，设置中心点坐标和地图级别
+    map.centerAndZoom("深圳",15);
+    map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+    map.addControl(new BMap.NavigationControl());
+    map.addControl(new BMap.NavigationControl());
+    map.addControl(new BMap.ScaleControl());
+    map.addControl(new BMap.OverviewMapControl());
+    map.addControl(new BMap.MapTypeControl());
+    $(function(){
+        getNowPos();
+		getLocal("province="+provinceName);
 
-    $(".map_btn").each(function (index) {
-        $(this).click(function () {
-            if ($(this).is('.color')) {
-                $(this).removeClass("color");
-                $(".content").eq(index).slideUp()
-            } else {
-                $(".map_btn").removeClass("color");
-                $(this).addClass("color");
-                $(".content").eq(index).slideDown().siblings(".content").slideUp()
+		//省市下拉框查找网点
+        /*$("#province").change(function(){
+            var provinceName=$(this).val();
+            $("#location-name").html("【"+provinceName+"】");
+            getLocal("province="+provinceName);
+        })*/
+
+      //根据门店的名称查找网点
+       /* $("span.search-icon").click(function(){
+            var content=$("#search_box_input").val();
+            if(content==""){
+                alert("请输入线下销售网点的信息");
+                return false;
             }
-
-        })
+            getLocal("content="+content);
+        })*/
     });
 
-    $(".myMapNav ul li").each(function (index) {
-        $(this).click(function () {
-            $(this).addClass("liActive").siblings("li").removeClass("liActive");
-            $(".myMapContent .box").eq(index).show().siblings("div").hide().stop()
-        })
-    });
+    //搜索框按键查询
+    /*$(document).keyup(function (e) {//捕获文档对象的按键弹起事件
+        if (e.keyCode == 13) {//按键信息对象以参数的形式传递进来了
+            //此处编写用户敲回车后的代码
+            $("span.search-icon").click();
+        }
+    });*/
 
-    $(".specialNav ul li").each(function (index) {
-        $(this).click(function () {
-            $(".specialNav").hide();
-            $(".specialInformation").eq(index).show().siblings(".specialInformation").hide()
-        })
-    });
-    function back() {
-        $(".specialInformation").hide();
-        $(".specialNav").show()
+
+    function getNowPos(){
+        var geolocation = new BMap.Geolocation();
+        geolocation.getCurrentPosition(function(r){
+            if(this.getStatus() == BMAP_STATUS_SUCCESS){
+                var mk = new BMap.Marker(r.point);
+                map.addOverlay(mk);//标出所在地
+                map.panTo(r.point);//地图中心移动
+                var point = new BMap.Point(r.point.lng,r.point.lat);//用所定位的经纬度查找所在地省市街道等信息
+                var gc = new BMap.Geocoder();
+                gc.getLocation(point, function(rs){
+                    var addComp = rs.addressComponents;
+                    $("#location-name").html("【"+addComp['province']+"】");
+                    $("#province option[value='"+addComp['province']+"']").attr("selected", true);
+                    getLocal("province="+addComp['province']);
+                });
+            }else {
+                alert('failed'+this.getStatus());
+            }
+        },{enableHighAccuracy: true})
     }
 
-    function listDown(){
-        $("#listDown").hide();
-        $("#listUp").show();
-        $(".list").slideUp();
+    var marker;
+    function getLocal(urlData){
+        //Ajax.call('Marketing2.php?act=getlocal',urlData,returnToCartResponse,'POST', 'TEXT', true, true);
+        //function  returnToCartResponse(result){
+		    result=[{"id":"515","province":"\u6e56\u5317\u7701","area":"\u5b9c\u660c","shopname":"\u77e5\u6765\u667a\u80fd\u79d1\u6280","shopaddr":"\u6e56\u5317\u7701\u5b9c\u660c\u5e02\u5747\u7476\u5e7f\u573a\u4e00\u697c\u77e5\u6765\u667a\u80fd\u4f53\u9a8c\u9986","location":"111.31098109196,30.732757818026"},{"id":"516","province":"\u6e56\u5317\u7701","area":"\u6b66\u6c49","shopname":"\u6b66\u6c49\u89e3\u653e\u5927\u9053\u4f18\u8da3\u5e97","shopaddr":"\u6e56\u5317\u7701\u6b66\u6c49\u5e02\u6c5f\u6c49\u533a\u89e3\u653e\u5927\u9053557\u53f7\u4e2d\u5c71\u5e7f\u573a1\u697c\u82cf\u5b81\u6613\u8d2d\u4f18\u8da3","location":"114.27613872848,30.587851596764"},{"id":"517","province":"\u6e56\u5317\u7701","area":"\u6b66\u6c49","shopname":"\u6b66\u6c49\u5149\u8c37\u4f18\u8da3\u5e97","shopaddr":"\u6e56\u5317\u7701\u6b66\u6c49\u5e02\u6d2a\u5c71\u533a\u6c11\u9662\u8def\u5149\u8c37\u5e7f\u573a\u8d44\u672c\u5927\u53a6\u8d1f\u4e00\u697c\u82cf\u5b81\u6613\u8d2d","location":"114.40624298256,30.510448272271"},{"id":"518","province":"\u6e56\u5317\u7701","area":"\u8944\u9633","shopname":"\u8d35\u53cb\u7535\u5668\u6709\u9650\u516c\u53f8","shopaddr":"\u6e56\u5317\u7701\u8944\u9633\u5e02\u6a0a\u57ce\u533a\u6625\u5143\u8def8\u53f7\u73b0\u4ee3\u57ce\u6570\u7801\u6e2f\u4e00\u697c1038\u53f7","location":"112.14366834884,32.058976142962"},{"id":"519","province":"\u6e56\u5317\u7701","area":"\u5341\u5830","shopname":"\u9f0e\u5174\u6295\u5f71\u79d1\u6280\u6709\u9650\u516c\u53f8","shopaddr":"\u6e56\u5317\u7701\u5341\u5830\u5e02\u5f20\u6e7e\u533a\u516d\u5830\u6cf0\u5f18\u7535\u8111\u57ce\u4e8c\u697cA\u533a45\u53f7","location":"110.7906542215,32.661244015944"},{"id":"520","province":"\u6e56\u5317\u7701","area":"\u6069\u65bd","shopname":"\u5dde\u987a\u5174\u8fbe\u7535\u8111\u6709\u9650\u516c\u53f8","shopaddr":"\u6e56\u5317\u7701\u6069\u65bd\u5dde\u56fd\u6cf0\u5927\u53a62\u697c\u987a\u8fbe\u7535\u8111","location":"109.4926968993,30.278629959823"},{"id":"521","province":"\u6e56\u5317\u7701","area":"\u8346\u5dde","shopname":"\u767e\u4fe1\u7535\u8111","shopaddr":"\u6e56\u5317\u7701\u8346\u5dde\u5e02\u6c99\u5e02\u533a\u7ea2\u95e8\u8def\u98de\u817e\u6570\u7801\u5e7f\u573a\u4e8c\u697c2008\u53f7\uff08\u8346\u5dde\u767e\u4fe1\u7535\u8111\uff09","location":"112.26757444672,30.312061976048"},{"id":"522","province":"\u6e56\u5317\u7701","area":"\u76d1\u5229","shopname":"\u8bba\u7c73\u667a\u6167\u5c45\u5bb6\u751f\u6d3b\u9986","shopaddr":"\u6e56\u5317\u7701\u8346\u5dde\u5e02\u76d1\u5229\u767e\u665f\u5e7f\u573a\u4e8c\u697c296\u53f7","location":"113.0019564425,29.848933249111"}];
+            result1=eval(result);
+            reg=eval(result);
+            if(reg.length<1){
+                $("#store-list").children().remove();
+                $("#store-list").append("<div style='text-align: center;line-height: 50px;'>暂无搜索的网点</div>");
+                return false;
+            }
+            var storeList="";
+            $("#store-num").html(reg.length);
+            map.clearOverlays();
+            var pointsView = [];
+            for(var i=0;i<reg.length;i++){
+                var n=i+1;
+                var p= reg[i]['location'].split(',');
+                var point = new BMap.Point(p[0],p[1]);
+                pointsView.push(point);
+
+                var content ="<p style='font-weight:600'>"+reg[i].shopname+"</p><p style='line-height: 20px;'>地址："+reg[i].shopaddr+"</p>";
+                var myIcon = new BMap.Icon("bd1.png", new BMap.Size(21, 33), {
+                    offset: new BMap.Size(10, 25), // 指定定位位置
+                });
+                var  marker = new BMap.Marker(point,{icon:myIcon});        // 创建标注
+                var label = new BMap.Label(n,{
+                    offset : new BMap.Size(0,3)
+                });
+                label.setStyle({
+                    width:'21px',background:'none',color:'#fff',border:'none',textAlign:'center'/只要对label样式进行设置就可达到在标注图标上显示数字的效果
+                });
+                marker.setLabel(label);//显示地理名称 a
+                map.addOverlay(marker);
+                addClickHandler(content,marker);
+
+                storeList+='<li onclick="to(this,'+i+','+p[0]+','+p[1]+',\''+reg[i].shopname+'\',\''+reg[i].shopaddr+'\')"><span class="location-num">'+n+'</span><div class="location-addr">'
+                +'<h3>'+reg[i].shopname+'</h3> <p class="addr-info">'+reg[i].shopaddr+'</p></div>'
+                +'</li>';
+            }
+            //让所有点在视野范围内
+            map.setViewport(pointsView);
+            $("#store-list").children().remove();
+            $("#store-list").append(storeList);
+       // }
     }
-    function listUp(){
-        $("#listUp").hide();
-        $("#listDown").show();
-        $(".list").slideDown();
+
+    var opts = {
+        width : 250,     // 信息窗口宽度
+        height: 50,     // 信息窗口高度
+        title : "" , // 信息窗口标题
+        enableMessage:true//设置允许信息窗发送短息
+    };
+
+
+    //点击将信息内容加入白标注中
+    function addClickHandler(content,marker){
+        marker.addEventListener("click",function(e){
+                    marker.setAnimation(null);
+                    openInfo(content,e);
+                }
+        );
+    }
+
+    function openInfo(content,e){
+        var p = e.target;
+        var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
+        var infoWindow = new BMap.InfoWindow(content,opts);  // 创建信息窗口对象
+        map.openInfoWindow(infoWindow,point); //开启信息窗口
+    }
+
+    //移动到某一坐标点
+    function to(obj,i,x,y,shopname,shopaddr){
+        var allOverlay = map.getOverlays();
+        var last=allOverlay.length-1;
+        map.removeOverlay(allOverlay[last]);
+        $(obj).addClass("addMove");
+        $(obj).siblings().removeClass("addMove");
+        var point=new BMap.Point(x,y);
+        map.centerAndZoom(point,15);
+        var myIcon = new BMap.Icon("bd2.png", new BMap.Size(21, 33), {
+            offset: new BMap.Size(10, 25), // 指定定位位置
+        });
+        var  marker = new BMap.Marker(point,{icon:myIcon});        // 创建标注
+        var n=i+1;
+        var label = new BMap.Label(n,{
+            offset : new BMap.Size(0,3)
+        });
+        label.setStyle({
+            width:'21px',background:'none',color:'#fff',border:'none',textAlign:'center'/只要对label样式进行设置就可达到在标注图标上显示数字的效果
+        });
+        marker.setLabel(label);//显示地理名称 a
+        map.addOverlay(marker);
+        var content ="<p style='font-weight:600'>"+shopname+"</p><p style='line-height: 20px;'>地址："+shopaddr+"</p>";
+        addClickHandler(content,marker);
     }
     </script>
 
+    <div style="text-align:center;margin:10px 0; font:normal 14px/24px 'MicroSoft YaHei';">
+        <p>适用浏览器：360、FireFox、Chrome、Opera、傲游、搜狗、世界之窗. 不支持Safari、IE8及以下浏览器。</p>
+        <p>来源：<a href="http://sc.chinaz.com/" target="_blank">站长素材</a></p>
+    </div>
 </body>
 </html>

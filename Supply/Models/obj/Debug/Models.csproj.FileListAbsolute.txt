@@ -9,7 +9,6 @@ E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\Models\bin\Debug\Models.pdb
 E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\Models\bin\Debug\EntityFramework.dll
 E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\Models\bin\Debug\EntityFramework.xml
 E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\Models\bin\Debug\zh-Hans\EntityFramework.resources.dll
-E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\Models\obj\Debug\Models.csprojAssemblyReference.cache
 E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\Models\obj\Debug\Models.csproj.CoreCompileInputs.cache
 E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\Models\obj\Debug\Models.csproj.CopyComplete
 E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\Models\obj\Debug\Models.dll

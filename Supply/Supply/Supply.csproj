@@ -153,6 +153,7 @@
     <Content Include="PeiZhi\css\news.css" />
     <Content Include="PeiZhi\css\skins\css.css" />
     <Content Include="PeiZhi\css\skins\_all-skins.css" />
+    <Content Include="PeiZhi\css\DiTustyle.css" />
     <Content Include="PeiZhi\css\table.css" />
     <Content Include="PeiZhi\css\table1.css" />
     <Content Include="PeiZhi\css\tail.css" />
