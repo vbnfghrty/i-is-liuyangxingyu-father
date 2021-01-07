@@ -2,20 +2,21 @@
 @{
     Layout = null;
 }
-
+@using Models;
 <!DOCTYPE html>
 
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>index</title>
-    <link href="~/PeiZhi/js/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/PeiZhi/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="~/PeiZhi/css/index.css" rel="stylesheet" />
-    <link href="~/PeiZhi/css/skins/css.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/PeiZhi/js/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/PeiZhi/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/PeiZhi/css/index.css">
+    <link rel="stylesheet" href="~/PeiZhi/css/skins/_all-skins.css">
 </head>
 <body class="hold-transition skin-blue sidebar-mini" style="overflow:hidden;">
-    @{ Model as string}
+    @{ Logion logion = Model as Logion;}
+
     <div id="ajax-loader" style="cursor: progress; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%; background: #fff; z-index: 10000; overflow: hidden;">
         <img src="~/PeiZhi/img/ajax-loader.gif" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin: auto;" />
     </div>
@@ -23,19 +24,33 @@
         <!--头部信息-->
         <header class="main-header">
             <a href="javascript:void (0)" class="logo">
-
+                <h2 style="font-family:楷体;">蒋氏集团</h2>
             </a>
             <nav class="navbar navbar-static-top" style="display:block;font-weight: 500;font-size: 14px;color: #fff;padding-left: 10px">
-                <!--<div class="sidebar-toggle">-->
-                <!--<span class="sr-only">更多模板：<a href="http://www.mycodes.net/" target="_blank">源码之家</a></span>-->
-                <!--</div>-->
-                <span class="index_top"><strong>蒋氏集团商货系统</strong></span>
+                <div class="sidebar-toggle">
+                <span class="sr-only"></span>
+                </div>
+                <span class="index_top"><strong></strong></span>
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
+
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <img src="~/PeiZhi/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                                <span class="hidden-xs">administrator</span>
+                                <span class="hidden-xs">
+                                    @{
+                                        if (logion.ZhName != null)
+                                        {
+                                            <span>欢迎</span>
+                                            <span>@logion.ZhName</span>
+                                            <span>@TempData["name"]</span>
+                                        }
+                                        else
+                                        {
+                                            <span><input type="button" value="请先登录" style="color:black;" onclick="TiaoLogion();" /></span>
+                                        }
+                                    }
+                                </span>
                             </a>
                             <ul class="dropdown-menu pull-right">
                                 <li><a class="menuItem" data-id="userInfo" href=""><i class="fa fa-user"></i>个人信息</a></li>
@@ -56,6 +71,10 @@
                                         </ul>
                                     </div>
                                 </li>
+                                <script src="js/jquery/jQuery-2.2.0.min.js"></script>
+
+                                <style>
+                                </style>
                                 <li class="divider"></li>
                                 <li><a><i class="ace-icon fa fa-power-off"></i>安全退出</a></li>
                             </ul>
@@ -67,7 +86,14 @@
         <!--左边导航-->
         <div class="main-sidebar">
             <div class="sidebar">
-
+                <!--<form action="#" method="get" class="sidebar-form">-->
+                <!--<div class="input-group">-->
+                <!--<input type="text" name="q" class="form-control" placeholder="Search...">-->
+                <!--<span class="input-group-btn">-->
+                <!--<a class="btn btn-flat"><i class="fa fa-search"></i></a>-->
+                <!--</span>-->
+                <!--</div>-->
+                <!--</form>-->
                 <ul class="sidebar-menu" id="sidebar-menu">
                     <li class="header">导航菜单</li>
                 </ul>
@@ -81,7 +107,7 @@
                 </button>
                 <nav class="page-tabs menuTabs">
                     <div class="page-tabs-content" style="margin-left: 0px;">
-                        <a href="javascript:;" class="menuTab active" data-id="/JiangTao/DiTu">地图监控</a>
+                        <a href="javascript:;" class="menuTab active" data-id="/JiangTao/DiTu">百度地图</a>
                     </div>
                 </nav>
                 <button class="roll-nav roll-right tabRight">
@@ -108,7 +134,7 @@
         </div>
     </div>
     <script src="~/PeiZhi/js/jquery/jQuery-2.2.0.min.js"></script>
-    <link href="~/PeiZhi/js/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/PeiZhi/js/bootstrap/js/bootstrap.min.js"></script>
     <script src="~/PeiZhi/js/index.js"></script>
     <script>
         var colorIndex = 0;
@@ -323,10 +349,11 @@
                 header.addClass("header5");
                 treeview_menu.addClass("treeview-menu5");
                 aa.addClass("a5");
-
             }
+        }
 
-
+        function TiaoLogion() {
+            location.href = "/JiangTao/Logion";
         }
     </script>
 </body>

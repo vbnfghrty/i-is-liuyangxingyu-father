@@ -4,25 +4,24 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BLL.JiangTao;
+using Models;
 
 namespace Supply.Controllers
 {
     public class JiangTaoController : Controller
     {
-        string UserId = "";
         // GET: ShoYe
         public ActionResult index()
         {
-            string d = "1,2,3,4";
-            string ddd = string.Join(",", d);
-            return View(ddd);
+            string dd = Request.QueryString["miaoShu"];
+            TempData["name"] = dd;
+            Logion user=new Logion();
+            if(dd!= null) {
+                user = new LogionBll().QueryLogionById(int.Parse(TempData["UserId"].ToString()));
+            }
+            return View(user);
         }
         public ActionResult Logion() {
-            return View();
-        }
-
-        public ActionResult DiTu() {
-            
             return View();
         }
 
@@ -34,8 +33,7 @@ namespace Supply.Controllers
             string jiegGUO = "";
             int ID = new LogionBll().IFLogion(name, pwd);
             if (ID > 0) {
-                UserId = ID.ToString() ;
-                Session["UserId"] = UserId;
+                TempData["UserId"] = ID;
                 jiegGUO = "登录成功!";
             }
             else {
@@ -43,5 +41,10 @@ namespace Supply.Controllers
             }
             return jiegGUO;
         }
+
+        public ActionResult DiTu() {
+            return View();
+        }
+
     }
 }
