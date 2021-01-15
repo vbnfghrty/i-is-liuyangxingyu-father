@@ -1,0 +1,119 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AddQianTai</title>
+    <link href="~/PeiZhi/css/table.css" rel="stylesheet" />
+    <link href="~/PeiZhi/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+    <link href="~/PeiZhi/js/bstable/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body style="background-color: #ecf0f5;font-family: 微软雅黑;color: #475059;min-width: 1000px;overflow: auto">
+    <div class="news_main" style="margin-left:5%;margin-top:1%;"> 
+        <table>
+            <tr>
+                <td>用户名称</td>
+                <td>
+                    <input type="text" id="txtqtname" />
+                </td>
+            </tr>
+            <tr>
+                <td height="5"></td>
+            </tr>
+            <tr>
+                <td>用户密码</td>
+                <td>
+                    <input type="password" id="txtqtpwd" />
+                </td>
+            </tr>
+            <tr>
+                <td height="5"></td>
+            </tr>
+            <tr>
+                <td>送货地址</td>
+                <td>
+                    <input type="text" id="qtdz"/>
+                </td>
+            </tr>
+            <tr>
+                <td height="5"></td>
+            </tr>
+            <tr>
+                <td>账户状态</td>
+                <td>
+                    <select class="find_input" style="width: 142px;" id="qtzt">
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td height="10"></td>
+            </tr>
+        </table>
+        <div style="width:300px;float:left;margin-left:40px;">
+            <div style="width:140px;float:left;"><a class="btn btn-default" onclick="bc()"><span class="glyphicon glyphicon-plus"></span>保存</a></div>
+            <div style="width:140px;float:left;"><a class="btn btn-default" onclick="qx()"><span class="glyphicon glyphicon-remove"></span>取消</a></div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+    //新增数据
+    function bc() {
+        if ($("#txtqtname").val() != "" && $("#txtqtpwd").val() != "" && $("#qtdz").val() != "" ) {
+            $.ajax({
+                type: "post",
+                url: "/WangJiaYi/QtAdd",
+                data: "{qt:{QTName:'" + $("#txtqtname").val() + "',QTPwd:'" + $("#txtqtpwd").val() + "',QTDiZhi:'" + $("#qtdz").val() + "',ZTId:'" + $("#qtzt").val() + "'}}",
+                dataType: "json",
+                contentType: "application/json",
+                success: function (result) {
+                    if (result > 0) {
+                        alert("新增成功！");
+                        qx();
+                    } else {
+                        alert("新增失败！")
+                    }
+                }
+            });
+        } else {
+            alert("不能为空！");
+        }
+    }
+
+    //取消
+    function qx() {
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    }
+
+    //绑定状态
+    $(function () {
+        Getzt();
+    });
+
+    function Getzt() {
+        $.ajax({
+            type: "POST",
+            url: "/WangJiaYi/Getzt",
+            data: "{}",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+
+                $.each(result, function (index, data) {
+                    $("#qtzt").append("<option value='" + data.ZTId + "'>" + data.ZTName + "</option>");
+                });
+            },
+            error: function (ex) {
+                alert(ex.responseText);
+            }
+        });
+
+    }
+</script>

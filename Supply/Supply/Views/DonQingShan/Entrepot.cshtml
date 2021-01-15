@@ -1,0 +1,243 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Entrepot</title>
+    <link href="~/PeiZhi/css/table.css" rel="stylesheet" />
+    <link href="~/PeiZhi/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+    <link href="~/PeiZhi/js/bstable/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/layui-v2.5.7/layui-v2.5.7/layui/css/layui.css" rel="stylesheet" />
+    <link href="~/layui-v2.5.7/layui-v2.5.7/layui/css/layui.mobile.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="news_main">
+        <div class="l_left news_right" style="width:100%;">
+            <h6>仓库信息</h6>
+            <div class="notice_check">
+                <p>
+                    <label>商品名称：</label><input type="text" id="name" class="find_input">
+                    <label>仓库地址：</label>
+                    <select class="find_input" id="set1">
+                        <option value="0" selected="selected">请选择</option>
+                        <option value="辽宁">辽宁省</option>
+                        <option value="北京">北京市</option>
+                        <option value="天津">天津市</option>
+                        <option value="山西">山西省</option>
+                        <option value="河北">河北省</option>
+                        <option value="山东">山东省</option>
+                        <option value="上海">上海市</option>
+                        <option value="江苏">江苏省</option>
+                        <option value="浙江">浙江省</option>
+                        <option value="安微">安微省</option>
+                        <option value="重庆">重庆市</option>
+                        <option value="贵州">贵州省</option>
+                        <option value="四川">四川省</option>
+                        <option value="河南">河南省</option>
+                        <option value="福建">福建省</option>
+                        <option value="湖北">湖北省</option>
+                        <option value="湖南">湖南省</option>
+                        <option value="江西">江西省</option>
+                        <option value="广东">广东省</option>
+                        <option value="广西壮族自治区">广西壮族自治区</option>
+                        <option value="陕西">陕西省</option>
+                        <option value="甘肃">甘肃省</option>
+                        <option value="内蒙古自治区">内蒙古自治区</option>
+                        <option value="新疆维吾尔自治区">新疆维吾尔自治区</option>
+                        <option value="青海">青海省</option>
+                        <option value="安徽">安徽省</option>
+                        <option value="广西">广西省</option>
+                        <option value="海南">海南省</option>
+                        <option value="黑龙江">黑龙江</option>
+                        <option value="重庆">重庆</option>
+                        <option value="新疆">新疆省</option>
+                        <option value="福建">福建</option>
+                    </select>
+                    <button class="check_btn" onclick="NameSelect(this)">查询</button>
+                </p>
+            </div>
+            <div class="clear"></div>
+            <div class="notice_check">
+                <div class="notice_nav r_right paddingBotme">
+                    <P>
+                        <a class="btn btn-default" onclick="Add()"><span class="glyphicon glyphicon-plus"></span>添加仓库信息</a>
+                        
+                    </P>
+                </div>
+            </div>
+            <div class="clear">
+                <table style="width:99.4%;" border="1">
+                    <tr style="background-color:#4fe2d9;">
+                        <td>仓库编号</td>
+                        <td>仓库名称</td>
+                        <td>仓库地址</td>
+                        <td>仓库创建时间</td>
+                        <td>仓库信息</td>
+                        <td>其他操作</td>
+                    </tr>
+                    <tbody id="tb1">
+                    </tbody>
+                </table>
+            </div>
+            <div id="btn">
+
+            </div>
+            <ul class="news_table department_table">
+                <li>
+                    <table id="table" class="table_style" style="margin: 0 auto"></table>
+                </li>
+            </ul>
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+</body>
+</html>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/layui-v2.5.7/layui-v2.5.7/layui/layui.js"></script>
+<script>
+    function A() {
+        alert(1);
+    }
+    var name = " ";
+    var PageIndex = 1;
+    var PageSize = 10;
+    var PageCount = 0;
+    var rows = 0;
+
+    $(function () {
+        Rows();
+        Goods(PageIndex, PageSize);
+        
+    });
+    //总条数
+    function Rows() {
+        $.ajax({
+            type: "POST",
+            url: "/DonQingShan/GetRows",
+            data: "{}",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                //获取总条数
+                rows = result;
+                layui.use(['laypage', 'layer'], function () {
+                    var laypage = layui.laypage
+                        , layer = layui.layer;
+                    //完整功能
+                    laypage.render({
+                        elem: 'btn'
+                        //设置总条数
+                        , count: rows
+                        , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                //调用我们自己分页的方法
+                                //obj.curr 当前页码
+                                //obj.limit 每页显示条数
+                                Goods(obj.curr, obj.limit);
+                            }
+
+                        }
+                    });
+
+                });
+            },
+            error: function (ex) {
+                alert(ex.responseText);
+            }
+        });
+
+    }
+
+    //展示数据
+    function Goods(PageIndex, PageSize) {
+        $.ajax({
+            type: "POST",
+            async: false,
+            url: "/DonQingShan/PageListDemo",
+            data: "{PageIndex:'" + PageIndex + "',PageSize:'" + PageSize + "'}",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                $("#tb1").empty();
+                $.each(result.DataList, function (index, data) {
+                    $("#tb1").append("<tr><td>" + data.CKId + "</td><td>" + data.CKName + "</td><td>" + data.CKDiZhi + "</td><td>" + DateTime(data.CKChuanJianTime) + "</td><td>" + data.CKType + "</td><td><a href='#' onclick='Update(" + data.CKId + ")'>修改</td></tr >");
+                });
+            },
+            error: function (ex) {
+                alert(ex.responseText);
+            }
+        });
+    }
+
+    //时间转换
+    function DateTime(op) {
+        var date = new Date(parseInt(op.substr(6)));
+        return date.toLocaleDateString();
+    }
+
+    //根据名称和下拉列表查询数据
+    function NameSelect() {
+        name = $("#name").val();
+        CKDiZhi = $("#set1").val();
+        if (name == "" && CKDiZhi == 0) {
+
+            Goods(PageIndex, PageSize);
+            return;
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "/DonQingShan/IDSelect",
+                async: false,
+                data: "{name:'" + name + "',CKDiZhi:'" + CKDiZhi + "'}",
+                dataType: "json",
+                contentType: "application/json",
+                success: function (result) {
+                    var sum = 1;
+                    $("#tb1").empty();
+                    $.each(result, function (index, data) {
+                        $("#tb1").append("<tr><td>" + data.CKId + "</td><td>" + data.CKName + "</td><td>" + data.CKDiZhi + "</td><td>" + DateTime(data.CKChuanJianTime) + "</td><td>" + data.CKType + "</td><td><a href='#' onclick='A()'>修改</td></tr >");
+                    });
+                    Rows();
+                },
+                error: function (ex) {
+                    alert(ex.responseText);
+                }
+            });
+        }
+    }
+
+    //跳转到新增页面
+    function Add() {
+        layer.open({
+            type: 2,
+            title: '添加库存商品',
+            shadeClose: true,
+            shade: 0.5,
+            skin: 'layui-layer-rim',
+            closeBtn: 1,
+            area: ['340px', '300px'],
+            content: 'EntrepotAdd'
+        });
+    }
+    //跳转到修改页面
+    function Update(id) {
+        layer.open({
+            type: 2,
+            title: '添加库存商品',
+            shadeClose: true,
+            shade: 0.5,
+            skin: 'layui-layer-rim',
+            closeBtn: 1,
+            area: ['400px', '300px'],
+            content: 'EntrepotUpdate?id=' + id + ''
+        });
+    }
+</script>

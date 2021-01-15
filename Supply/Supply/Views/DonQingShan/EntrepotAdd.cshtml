@@ -1,0 +1,152 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>append</title>
+    <link href="~/PeiZhi/css/table.css" rel="stylesheet" />
+    <link href="~/PeiZhi/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+    <link href="~/PeiZhi/js/bstable/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body style="background-color: #ecf0f5;font-family: 微软雅黑;color: #475059;min-width: 1000px;overflow: auto">
+    <div class="news_main" 回来，， style="margin-left:5%;margin-top:1%;">
+        <table>
+            <tr>
+                <td>仓库名称：<input type="hidden" id="" value="" /></td>
+                <td><input type="text" width="135" id="Name" /></td>
+            </tr>
+            <tr>
+                <td height="16"></td>
+            </tr>
+
+            <tr>
+                <td>仓库地址：</td>
+                <td>
+                    <select class="find_input" id="set1" style="width:135px">
+                        <option value="0" selected="selected">请选择</option>
+                        <option value="辽宁">辽宁省</option>
+                        <option value="北京">北京市</option>
+                        <option value="天津">天津市</option>
+                        <option value="山西">山西省</option>
+                        <option value="河北">河北省</option>
+                        <option value="山东">山东省</option>
+                        <option value="上海">上海市</option>
+                        <option value="江苏">江苏省</option>
+                        <option value="浙江">浙江省</option>
+                        <option value="安微">安微省</option>
+                        <option value="重庆">重庆市</option>
+                        <option value="贵州">贵州省</option>
+                        <option value="四川">四川省</option>
+                        <option value="河南">河南省</option>
+                        <option value="福建">福建省</option>
+                        <option value="湖北">湖北省</option>
+                        <option value="湖南">湖南省</option>
+                        <option value="江西">江西省</option>
+                        <option value="广东">广东省</option>
+                        <option value="广西壮族自治区">广西壮族自治区</option>
+                        <option value="陕西">陕西省</option>
+                        <option value="甘肃">甘肃省</option>
+                        <option value="内蒙古自治区">内蒙古自治区</option>
+                        <option value="新疆维吾尔自治区">新疆维吾尔自治区</option>
+                        <option value="青海">青海省</option>
+                        <option value="安徽">安徽省</option>
+                        <option value="广西">广西省</option>
+                        <option value="海南">海南省</option>
+                        <option value="黑龙江">黑龙江</option>
+                        <option value="重庆">重庆</option>
+                        <option value="新疆">新疆省</option>
+                        <option value="福建">福建</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td height="16"></td>
+            </tr>
+
+            <tr>
+                <td>仓库创建时间： </td>
+                <td><input type="text" width="135" id="ckDate" /></td>
+            </tr>
+            <tr>
+                <td height="16"></td>
+            </tr>
+
+            <tr>
+                <td>仓库信息：</td>
+                <td>
+                    <select class="find_input" id="set2" style="width:135px">
+                        <option value="0" selected="selected">正常运营</option>
+                        <option value="1">在进行维护</option>
+                        <option value="2">已经停止运营</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td height="16"></td>
+            </tr>
+
+            <tr>
+                <td height="16"></td>
+            </tr>
+        </table>
+        <div style="width:300px;float:left;margin-left:40px;">
+            <div style="width:145px;float:left;"><a class="btn btn-default" onclick="CancelAdd()"><span class="glyphicon glyphicon-plus"></span>保存</a></div>
+            <div style="width:145px;float:left;"><a class="btn btn-default" onclick="Cancel()"><span class="glyphicon glyphicon-remove"></span>取消</a></div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+    $(function () {
+
+    });
+
+    //测试
+    function CancelAdds() {
+        CKName = $("#Name").val();
+        CKDiZhi = $("#set1").val();
+        CKChuanJianTime = $("#ckDate").val();
+        CKType = $("#set2").val();
+        alert(CKName + "+" + CKDiZhi + "+" + CKChuanJianTime + "+" + CKType);
+        alert(1);
+    }
+
+    //取消
+    function Cancel() {
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    }
+
+    //保存
+    function CancelAdd() {
+        CKName = $("#Name").val();
+        CKDiZhi = $("#set1").val();
+        CKChuanJianTime = $("#ckDate").val();
+        CKType = $("#set2").val();
+        //alert(CKName + "+" + CKDiZhi + "+" + CKChuanJianTime + "+" + CKType);
+        $.ajax({
+            type: "post",
+            url: "/DonQingShan/EntrepotAddSs",
+            data: "{c:{CKName:'" + CKName + "',CKDiZhi:'" + CKDiZhi + "',CKChuanJianTime:'" + CKChuanJianTime + "',CKType:'" + CKType + "'}}",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                if (result > 0) {
+                    alert('新增成功！');
+                    Cancel();
+                    parent.location.reload();
+
+                } else {
+                    alert('新增失败');
+
+                }
+            }
+        })
+    }
+</script>

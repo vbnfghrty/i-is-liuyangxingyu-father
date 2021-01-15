@@ -1,0 +1,135 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ModifyPage</title>
+    <link href="~/PeiZhi/css/table.css" rel="stylesheet" />
+    <link href="~/PeiZhi/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+    <link href="~/PeiZhi/js/bstable/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body style="background-color: #ecf0f5;font-family: 微软雅黑;color: #475059;min-width: 1000px;overflow: auto">
+    <div class="news_main"  style="margin-left:5%;margin-top:1%;">
+        <table>
+            <tr>
+                <td>用户id：</td>
+                <td><input type="text" width="135" id="UserId" /></td>
+            </tr>
+            <tr>
+                <td height="5"></td>
+            </tr>
+            <tr>
+                <td>用户姓名：</td>
+                <td>
+                    <input type="text" id="txtName" value="" />
+                </td>
+            </tr>
+            <tr>
+                <td height="5"></td>
+            </tr>
+            <tr>
+                <td>出生日期： </td>
+                <td>
+                    <input type="text" width="142" id="DateBirth" value="" />
+                </td>
+            </tr>
+            <tr>
+                <td height="5"></td>
+            </tr>
+            <tr>
+                <td>入职日期：</td>
+                <td><input type="text" width="142" id="DateEntry" /></td>
+            </tr>
+            <tr>
+                <td height="5"></td>
+            </tr>
+            <tr>
+                <td>电子邮件：</td>
+                <td><input type="email" id="Email" /></td>
+            </tr>
+
+            <tr>
+                <td height="5"></td>
+            </tr>
+            <tr>
+                <td>用户状态：</td>
+                <td>
+                    <select class="find_input" style="width: 142px;" id="Condition">
+                        <option value="">请选择</option>
+                        <option value="公司就职">公司就职</option>
+                        <option value="程序绑定">程序绑定</option>
+                        <option value="公司离职">公司离职</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td height="10"></td>
+            </tr>
+        </table>
+        <div style="width:300px;float:left;margin-left:40px;">
+            <div style="width:145px;float:left;"><a class="btn btn-default" onclick="Update()"><span class="glyphicon glyphicon-plus"></span>保存</a></div>
+            <div style="width:145px;float:left;"><a class="btn btn-default" onclick="Cancel()"><span class="glyphicon glyphicon-remove"></span>取消</a></div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+    var id = 0;
+    $(function () {
+        id=@Request.QueryString["id"];
+        Edit(id);
+    });
+    function Cancel() {
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    }
+    //时间戳转日期格式
+    function DateTime(op) {
+        var date = new Date(parseInt(op.substr(6)));
+        return date.toLocaleDateString();
+    }
+    //将数据赋值到标签上
+    function Edit(id) {
+        $.ajax({
+            type: "post",
+            url: "/WangJiaYi/IDGeRenSelect",
+            data: "{id:'" + id + "'}",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                $("#UserId").val(result[0].ZhName);
+                $("#txtName").val(result[0].Name);
+                $("#DateBirth").val(DateTime(result[0].Birthday));
+                $("#DateEntry").val(DateTime(result[0].EntryDate));
+                $("#Email").val(result[0].Email);
+                $("#Condition").val(result[0].Condition);
+            }
+        });
+    }
+    //进行修改操作
+    function Update() {
+        $.ajax({
+            type: "post",
+            url: "/WangJiaYi/GeRenEdit",
+            data: "{ziLiao:{ZHId:'" + $("#UserId").val() + "',Name:'" + $("#txtName").val() + "',Birthday:'" + $("#DateBirth").val() + "',EntryDate:'" + $("#DateEntry").val() + "',Email:'" + $("#Email").val() + "',Condition:'" + $("#Condition").val() + "'}}",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                if (result > 0) {
+                    alert("编辑成功！");
+                    Cancel();
+                    parent.location.reload();
+                } else {
+                    alert("编辑失败！")
+                }
+            }
+        });
+    }
+
+</script>

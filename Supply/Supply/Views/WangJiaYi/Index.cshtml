@@ -1,0 +1,221 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link href="~/PeiZhi/css/table.css" rel="stylesheet" />
+    <link href="~/PeiZhi/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+    <link href="~/PeiZhi/js/bstable/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/layui-v2.5.7/layui-v2.5.7/layui/css/layui.css" rel="stylesheet" />
+    <link href="~/layui-v2.5.7/layui-v2.5.7/layui/css/layui.mobile.css" rel="stylesheet" />
+</head>
+<body style="background-color: #ecf0f5;font-family: 微软雅黑;color: #475059;min-width: 1000px;overflow: auto">
+    <div class="news_main">
+        <div class="l_left news_right" style="width:100%;">
+            <h6>个人资料信息管理</h6>
+            <div class="notice_check">
+                <p>
+                    <label>用户姓名：</label><input type="text" id="txtName" class="find_input">
+                    <button class="check_btn" onclick="Displays()" id="btnSel">查询</button>
+                </p>
+            </div>
+            <div class="clear"></div>
+            <div class="notice_check">
+                <div class="notice_nav r_right paddingBotme">
+                    <P>
+                        <a class="btn btn-default" onclick="Addpage()"><span class="glyphicon glyphicon-plus"></span>新增</a>
+                    </P>
+                </div>
+            </div>
+            <div class="clear">
+                <table style="width:99.4%;" border="1">
+                    <tr style="background-color:#4fe2d9;font-weight:bold;">
+                        <td>用户编号</td>
+                        <td>用户名称</td>
+                        <td>用户账号</td>
+                        <td>用户状态</td>
+                        <td>出生日期</td>
+                        <td>入职日期</td>
+                        <td>电子邮件</td>
+                        <td>操作</td>
+                    </tr>
+                    <tbody id="tb1">
+                    </tbody>
+                </table>
+            </div>
+            <div id="btnDisplay">
+            </div>
+            <ul class="news_table department_table">
+                <li>
+                    <table id="table" class="table_style" style="margin: 0 auto"></table>
+                </li>
+            </ul>
+        </div>
+        <div class="clear">
+
+        </div>
+    </div>
+</body>
+</html>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/layui-v2.5.7/layui-v2.5.7/layui/layui.js"></script>
+<script src="~/layui-v2.5.7/layui-v2.5.7/layui/layui.all.js"></script>
+<script>
+    var PageIndex = 1;
+    var PageSize = 10;
+    var rows = 0;
+    var name = "";
+    var Condit = "公司离职";
+    $(function () {
+        Rowse(name);
+        Display(PageIndex, PageSize);
+    });
+    //时间戳转日期格式
+    function DateTime(op) {
+        var date = new Date(parseInt(op.substr(6)));
+        return date.toLocaleDateString();
+    }
+    //展示数据
+    function Display(PageIndex, PageSize) {
+        $.ajax({
+            type: "POST",
+            async: false,
+            url: "/WangJiaYi/GeRenDisplay",
+            data: "{PageIndex:'" + PageIndex + "',PageSize:'" + PageSize + "'}",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                $("#tb1").empty();
+                $.each(result.DataList, function (index, data) {
+                    $("#tb1").append("<tr><td>" + data.ZLId + "</td ><td>" + data.Name + "</td><td>" + data.ZhName + "</td><td>" + data.Condition + "</td><td>" + DateTime(data.Birthday) + "</td><td>" + DateTime(data.EntryDate) + "</td><td>" + data.Email + "</td><td><a onclick='Cones(" + data.ZLId + ")' class='btn btn-default'><span class='glyphicon glyphicon-remove'></span>删除</a> <a onclick='Modify(" + data.ZLId + ")' class='btn btn-default'><span class='glyphicon glyphicon-edit'></span>编辑</a></td></tr >");
+                });
+            },
+            error: function (ex) {
+                alert(ex.responseText);
+            }
+        });
+    }
+    //查询数据
+    function Displays() {
+        if ($("#txtName").val() != "") {
+            name = $("#txtName").val();
+            Rowse(name);
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: "/WangJiaYi/GeRenDisplays",
+                data: "{PageIndex:'" + PageIndex + "',PageSize:'" + PageSize + "',name:'" + name + "'}",
+                dataType: "json",
+                contentType: "application/json",
+                success: function (result) {
+                    $("#tb1").empty();
+                    $.each(result.DataList, function (index, data) {
+                        $("#tb1").append("<tr><td>" + data.ZLId + "</td ><td>" + data.Name + "</td><td>" + data.ZhName + "</td><td>" + data.Condition + "</td><td>" + DateTime(data.Birthday) + "</td><td>" + DateTime(data.EntryDate) + "</td><td>" + data.Email + "</td><td><a onclick=''class='btn btn-default'><span class='glyphicon glyphicon-remove'></span>删除</a> <a onclick='' class='btn btn-default'><span class='glyphicon glyphicon-edit'></span>编辑</a></td></tr >");
+                    });
+                },
+                error: function (ex) {
+                    alert(ex.responseText);
+                }
+            });
+        } else {
+            alert("请输入内容！");
+            Display(PageIndex, PageSize);
+        }
+
+
+    }
+    //总条数
+    function Rowse(name) {
+        $.ajax({
+            type: "POST",
+            url: "/WangJiaYi/Rows",
+            data: "{name:'" + name + "'}",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                //获取总条数
+                rows = result;
+                layui.use(['laypage', 'layer'], function () {
+                    var laypage = layui.laypage
+                        , layer = layui.layer;
+                    //完整功能
+                    laypage.render({
+                        elem: 'btnDisplay'
+                        //设置总条数
+                        , count: rows
+                        , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                //调用我们自己分页的方法
+                                //obj.curr 当前页码
+                                //obj.limit 每页显示条数
+                                Display(obj.curr, obj.limit);
+                                $("#txtName").val("");
+                            }
+                        }
+                    });
+                });
+            },
+            error: function (ex) {
+                alert(ex.responseText);
+            }
+        });
+    }
+    //跳转都新增页面
+    function Addpage() {
+        layer.open({
+            type: 2,
+            title: '添加个人资料信息',
+            shadeClose: true,
+            shade: 0.5,
+            skin: 'layui-layer-rim',
+            closeBtn: 1,
+            area: ['400px', '300px'],
+            content: 'newPage'
+        });
+    }
+    //更改状态
+    function Cones(zlid) {
+        if (confirm('确认删除吗？')) {
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: "/WangJiaYi/EditCondition",
+                data: "{zlid:'" + zlid + "',Condit:'" + Condit + "'}",
+                dataType: "json",
+                contentType: "application/json",
+                success: function (result) {
+                    if (result > 0) {
+                        alert("删除成功！");
+                        Display(PageIndex, PageSize);
+                        Rowse(name);
+                    } else {
+                        alert("删除失败！")
+                    }
+                },
+                error: function (ex) {
+                    alert(ex.responseText);
+                }
+            });
+        }
+    }
+    //跳转都修改页面
+    function Modify(id) {
+        layer.open({
+            type: 2,
+            title: '编辑个人资料信息',
+            shadeClose: true,
+            shade: 0.5,
+            skin: 'layui-layer-rim',
+            closeBtn: 1,
+            area: ['400px', '300px'],
+            content: 'ModifyPage?id=' + id + ''
+        });
+    }
+</script>

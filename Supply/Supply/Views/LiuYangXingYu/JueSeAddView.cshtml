@@ -1,0 +1,99 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>JueSeAddView</title>
+    <link href="~/PeiZhi/css/table.css" rel="stylesheet" />
+    <link href="~/PeiZhi/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+    <link href="~/PeiZhi/js/bstable/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body style="background-color: #ecf0f5;font-family: 微软雅黑;color: #475059;min-width: 1000px;overflow: auto">
+    <div class="news_main" style="margin-left:5%;margin-top:1%;">
+        <table>
+            <tr>
+                <td>角色内容：</td>
+                <td><input type="text" style="width:241px;" id="txtJueSeName" /></td>
+            </tr>
+            <tr>
+                <td height="5"></td>
+            </tr>
+            <tr>
+                <td>创建时间：</td>
+                <td><input type="text" style="width:241px;" id="txtJSTime" /></td>
+            </tr>
+            <tr>
+                <td height="5"></td>
+            </tr>
+            <tr>
+                <td>角色备注：</td>
+                <td><input type="text" style="width:241px;" id="txtJSBeiZhu" /></td>
+            </tr>
+            <tr>
+                <td height="10"></td>
+            </tr>
+        </table>
+        <div style="width:300px;float:left;margin-left:40px;">
+            <div style="width:145px;float:left;"><a class="btn btn-default" onclick="AddPage()"><span class="glyphicon glyphicon-plus"></span>添加</a></div>
+            <div style="width:145px;float:left;"><a class="btn btn-default" onclick="Cancel()"><span class="glyphicon glyphicon-remove"></span>取消</a></div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+    function Cancel() {
+        if (confirm('你确认取消吗？')) {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        }
+    }
+    function Cancel2() {
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    }
+    function AddPage() {
+        if ($("#txtJueSeName").val() == "" && $("#txtJSTime").val() == "" && $("#txtJSBeiZhu").val() == "") {
+            alert('不能为空！');
+            return;
+        } else if ($("#txtJueSeName").val() != "" && $("#txtJSTime").val() != "" && $("#txtJSBeiZhu").val() != "") {
+            $.ajax({
+                type: "POST",
+                url: "/LiuYangXingYu/Count",
+                data: "{Name:'" + $("#txtJueSeName").val() + "'}",
+                dataType: "json",
+                contentType: "application/json",
+                success: function (result) {
+                    alert(result);
+                    if (result >= 1) {
+                        alert('数据库已有！');
+                        return;
+                    } else if (result <= 0) {
+                        $.ajax({
+                            type: "POST",
+                            url: "/LiuYangXingYu/JsAdd",
+                            data: "{js:{JueSeName:'" + $("#txtJueSeName").val() + "',JSTime:'" + $("#txtJSTime").val() + "',JSBeiZhu:'" + $("#txtJSBeiZhu").val() + "'}}",
+                            dataType: "json",
+                            contentType: "application/json",
+                            success: function (result) {
+                                if (result > 0) {
+                                    alert('新增成功！');
+                                    Cancel2();
+                                    parent.location.reload();
+                                } else {
+                                    alert('新增失败！');
+                                }
+                            }
+                        });
+
+                    }
+                }
+            });
+        }
+    }
+</script>

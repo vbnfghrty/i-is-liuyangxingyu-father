@@ -1,0 +1,168 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>QianTai</title>
+    <link href="~/PeiZhi/css/table.css" rel="stylesheet" />
+    <link href="~/PeiZhi/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+    <link href="~/PeiZhi/js/bstable/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/layui-v2.5.7/layui-v2.5.7/layui/css/layui.css" rel="stylesheet" />
+    <link href="~/layui-v2.5.7/layui-v2.5.7/layui/css/layui.mobile.css" rel="stylesheet" />
+</head>
+<body style="background-color: #ecf0f5;font-family: 微软雅黑;color: #475059;min-width: 1000px;overflow: auto">
+    <div class="news_main">
+        <div class="l_left news_right" style="width:100%;">
+            <h6>前台用户信息管理</h6>
+            <div class="clear"></div>
+            <div class="notice_check">
+                <div class="notice_nav r_right paddingBotme">
+                    <P>
+                        <a class="btn btn-default" onclick="Add()"><span class="glyphicon glyphicon-plus"></span>新增</a>
+                    </P>
+                </div>
+            </div>
+            <div class="clear">
+                <table style="width:99.4%;" border="1">
+                    <tr style="background-color:#4fe2d9;font-weight:bold;">
+                        <td>用户编号</td>
+                        <td>用户名称</td>
+                        <td>用户密码</td>
+                        <td>送货地址</td>
+                        <td>账户状态</td>
+                        <td>操作</td>
+                    </tr>
+                    <tbody id="tb1">
+                    </tbody>
+                </table>
+                <div id="qt"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/layui-v2.5.7/layui-v2.5.7/layui/layui.js"></script>
+<script>
+    var PageIndex = 1;
+    var PageSize = 10;
+    var pageCount = 0;
+    var rows = 0;
+    $(function () {
+        Rowse();
+        Getqiantai(PageIndex, PageSize);
+    });
+
+    //查询
+    function Getqiantai(PageIndex, PageSize) {
+        $.ajax({
+            type: "POST",
+            async: false,
+            url: "/WangJiaYi/Getqiantai",
+            data: "{PageIndex:'" + PageIndex + "',PageSize:'" + PageSize + "'}",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                $("#tb1").empty();
+                $.each(result.DataList, function (index, data) {
+                    $("#tb1").append("<tr><td>" + data.QTId + "</td ><td>" + data.QTName + "</td><td>" + data.QTPwd + "</td><td>" + data.QTDiZhi + "</td><td>" + data.ZTId + "</td><td><a onclick='Del(" + data.QTId + ")' class='btn btn-default'><span class='glyphicon glyphicon-remove'></span>删除</a> <a onclick='Edit(" + data.QTId + ")' class='btn btn-default'><span class='glyphicon glyphicon-edit'></span>编辑</a></td></tr >");
+                });
+            },
+            error: function (ex) {
+                alert(ex.responseText);
+            }
+        });
+    }
+
+    //总条数
+    function Rowse() {
+        $.ajax({
+            type: "POST",
+            url: "/WangJiaYi/Rowes",
+            data: "{}",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                rows = result;
+                layui.use(['laypage', 'layer'], function () {
+                    var laypage = layui.laypage
+                        , layer = layui.layer;
+                    laypage.render({
+                        elem: 'qt'
+                        , count: rows
+                        , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                Getqiantai(obj.curr, obj.limit);
+                            }
+                            console.log(obj)
+                        }
+                    });
+                });
+            },
+            error: function (ex) {
+                alert(ex.responseText);
+            }
+        });
+    }
+
+    //新增页面
+    function Add() {
+        layer.open({
+            type: 2,
+            title: '添加前台用户信息',
+            shadeClose: true,
+            shade: 0.5,
+            skin: 'layui-layer-rim',
+            closeBtn: 1,
+            area: ['400px', '300px'],
+            content: 'AddQianTai'
+        });
+    }
+
+    //修改页面
+    function Edit(id) {
+        layer.open({
+            type: 2,
+            title: '编辑前台用户信息',
+            shadeClose: true,
+            shade: 0.5,
+            skin: 'layui-layer-rim',
+            closeBtn: 1,
+            area: ['400px', '300px'],
+            content: 'Updateqt?id=' + id + ''
+        });
+    }
+
+    //删除
+    function Del(id) {
+        if (confirm('确定删除?')) {
+
+            $.ajax({
+                type: "POST",
+                url: "/WangJiaYi/delqt",
+                data: "{id:" + id + "}",
+                dataType: "json",
+                contentType: "application/json",
+                success: function (result) {
+                    if (result > 0) {
+                        alert("删除成功！");
+                        Getqiantai(PageIndex, PageSize);
+                    }
+                    else {
+                        alert("删除失败！");
+                    }
+                },
+                error: function (ex) {
+                    alert(ex.responseText);
+                }
+            });
+        }
+        return false;
+    }
+</script>

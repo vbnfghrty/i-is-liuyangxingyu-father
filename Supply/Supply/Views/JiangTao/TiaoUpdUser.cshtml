@@ -1,0 +1,173 @@
+﻿
+@{
+    Layout = null;
+}
+@using Models;
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>用户信息更改</title>
+    <link href="~/PeiZhi/css/table.css" rel="stylesheet" />
+    <link href="~/PeiZhi/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+    <link href="~/PeiZhi/js/bstable/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body style="background-color: #ecf0f5;font-family: 微软雅黑;color: #475059;min-width: 1000px;overflow: auto">
+    <div class="news_main" 回来，， style="margin-left:5%;margin-top:1%;">
+        <table class="tab" style="margin:40px;">
+            <tr>
+                <td>用户名：<input type="hidden" id="userId" value="@ViewBag.id" /></td>
+                <td width="40"></td>
+                <td>
+                    <input type="text" id="UserName" width="135" />
+                </td>
+            </tr>
+            <tr>
+                <td height="35"></td>
+            </tr>
+            <tr>
+                <td>程序角色：</td>
+                <td width="40"></td>
+                <td>
+                    <select class="find_input" style="width:135px;" id="ChengXuJueSe">
+                        <option value="0">请选择</option>
+                        @{ foreach (JueSe js in Model)
+                            {
+                                <option value="@js.JueSeId">@js.JueSeName</option>
+                            }
+                        }
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td height="35"></td>
+            </tr>
+            <tr>
+                <td>入职日期：</td>
+                <td width="40"></td>
+                <td>
+                    <input type="date" id="RuzHITime" width="135" />
+                </td>
+            </tr>
+            <tr>
+                <td height="35"></td>
+            </tr>
+            <tr>
+                <td>账号状态：</td>
+                <td width="40"></td>
+                <td>
+                    <input type="radio" id="zhengChang" name="zt" />正常
+                    <input type="radio" id="ZhuXiao" name="zt" />注销
+                </td>
+            </tr>
+        </table>
+        <div style="width:300px;float:left;margin-left:40px;margin-top:5px;">
+            <div style="width:145px;float:left;"><a class="btn btn-default" onclick="OKUpd()"><span class="glyphicon glyphicon-plus"></span>保存</a></div>
+            <div style="width:145px;float:left;"><a class="btn btn-default" onclick="Cancel()"><span class="glyphicon glyphicon-remove"></span>取消</a></div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="~/PeiZhi/js/jquery/jquery-3.4.1.min.js"></script>
+<link href="~/PeiZhi/css/tanKuan/mdialog.css" rel="stylesheet" />
+<script src="~/PeiZhi/js/tanKuan/zepto.min.js"></script>
+<script src="~/PeiZhi/js/tanKuan/mdialog.js"></script>
+<script>
+    $(function () {
+        FuZhiWenBen();
+    });
+
+    //为控件赋值
+    function FuZhiWenBen() {
+            $.ajax({
+                type: "POST",
+                url: "/JiangTao/GetUserById",
+                async: false,
+                data: "{userId:" + $("#userId").val() + "}",
+                dataType: "json",
+                contentType: "application/json",
+                success: function (result) {
+                    var dd = new Date(DateTime(result[0].ruZhiTime));
+                    var m = "";
+                    if (dd.getMonth().toString().length == 1) {
+                        var sum = dd.getMonth().toString();
+                        m = '0' + parseInt(parseInt(sum)+1);
+                    }
+                    var day = "";
+                    if (dd.getDay().toString().length == 1) {
+                        var sum = dd.getDay().toString();
+                        day = '0' + parseInt(parseInt(sum) + 1);
+                    }
+                    $("#UserName").val(result[0].userName);
+                    $("#ChengXuJueSe").val(result[0].juese);
+                    $("#RuzHITime").val(dd.getFullYear() + '-' + m + '-' + day);
+                    $("#ZhuXiao").attr("checked", true);
+                    if (result[0].zhType == "正常") {
+                        $("#ZhuXiao").attr("checked", false);
+                        $("#zhengChang").attr("checked", true);
+                    }
+                    IFZhuXiao();
+                },
+                error: function (ex) {
+                    alert(ex.responseText);
+                }
+            });
+    }
+
+    $("[name=zt]").click(function () {
+        IFZhuXiao();
+    });
+
+    function IFZhuXiao() {
+        if ($("#ZhuXiao").prop("checked") == true) {
+            $("#UserName").attr("readonly", true);
+            $("#ChengXuJueSe").attr("readonly", true);
+            $("#RuzHITime").attr("readonly", true);
+            new TipBox({ type: 'tip', str: '注销后不可更改用户值!', clickDomCancel: true, setTime: 10000500, hasBtn: true });
+        } else {
+            $("#UserName").attr("readonly", false);
+            $("#ChengXuJueSe").attr("readonly", false);
+            $("#RuzHITime").attr("readonly", false);
+        }
+    }
+
+    function Cancel() {
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    }
+
+    function DateTime(op) {
+        var date = new Date(parseInt(op.substr(6)));
+        return date.toLocaleDateString();
+    }
+
+    function OKUpd() {
+        
+        var dd = 1;
+        if ($("#ZhuXiao").prop("checked") == true) {
+            dd = 2;
+        }
+        $.ajax({
+                type: "POST",
+                url: "/JiangTao/OKUpdUser",
+                data: {
+                    "id": $("#userId").val(), "UserName": $("#UserName").val(),
+                    "ChengXuJueSe": $("#ChengXuJueSe").val(), "RuzHITime": $("#RuzHITime").val(),
+                    "zt":dd
+                },
+                dataType: "text",
+                success: function (result) {
+                    new TipBox({ type: 'tip', str: result, clickDomCancel: true, setTime: 100005000, hasBtn: true });
+                    if (result == "修改成功!") {
+                        parent.location.reload();
+                        Cancel();
+                    }
+                },
+                error: function (ex) {
+                    alert(ex.responseText);
+                }
+            });
+    }
+</script>

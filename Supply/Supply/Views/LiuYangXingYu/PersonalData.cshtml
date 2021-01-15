@@ -1,0 +1,250 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>PersonalData</title>
+    <link href="~/PeiZhi/css/table.css" rel="stylesheet" />
+    <link href="~/PeiZhi/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+    <link href="~/PeiZhi/js/bstable/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/layui-v2.5.7/layui-v2.5.7/layui/css/layui.css" rel="stylesheet" />
+    <link href="~/layui-v2.5.7/layui-v2.5.7/layui/css/layui.mobile.css" rel="stylesheet" />
+</head>
+<body style="background-color: #ecf0f5;font-family: 微软雅黑;color: #475059;min-width: 1000px;overflow: auto">
+    <div class="news_main">
+        <div class="l_left news_right" style="width:100%;">
+            <h6>类别单位管理</h6>
+            <div class="notice_check">
+            </div>
+            <div class="clear">
+                <table style="width:99.4%;" border="1">
+                    <tr style="background-color:#4fe2d9;font-weight:bold;">
+                        <td width="155px">类别编号</td>
+                        <td width="155px">类别名称</td>
+                        <td width="155px">类别备注</td>
+                        <td width="155px">操作</td>
+                    </tr>
+                    <tbody id="td1">
+                    </tbody>
+                </table>
+                <div id="btn1">
+
+                </div>
+                <table style="width:99.4%;" border="1">
+                    <tr style="background-color:#4fe2d9;font-weight:bold;">
+                        <td width="155px">单位编号</td>
+                        <td width="155px">计量单位</td>
+                        <td width="155px">操作</td>
+                    </tr>
+                    <tbody id="td2">
+                    </tbody>
+                </table>
+                <div id="btn2">
+
+                </div>
+            </div>
+            
+            <div id="btn">
+
+            </div>
+            <ul class="news_table department_table">
+                <li>
+                    <table id="table" class="table_style" style="margin: 0 auto"></table>
+                </li>
+            </ul>
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+</body>
+</html>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/layui-v2.5.7/layui-v2.5.7/layui/layui.js"></script>
+<script src="~/layui-v2.5.7/layui-v2.5.7/layui/layui.all.js"></script>
+<script>
+    var PageIndex = 1;
+    var PageSize = 10;
+    var rows = 0;
+    $(function () {
+        CPRows();
+        CPClasse(PageIndex, PageSize);
+        DWRows();
+        DanWeie(PageIndex, PageSize);
+    });
+    //跳转到CPClass的新增页面
+    function CPAdds() {
+        parent.layer.open({
+            type: 2,
+            title: '添加类别',
+            shadeClose: true,
+            shade: 0.5,
+            skin: 'layui-layer-rim',
+            closeBtn: 1,
+            content: 'CPAddPage',
+            area: ['410px', '300px']
+        });
+    }
+    //跳转到CPClass的修改页面
+    function CPUpdates(id) {
+        parent.layer.open({
+            type: 2,
+            title: '编辑类别',
+            shadeClose: true,
+            shade: 0.5,
+            skin: 'layui-layer-rim',
+            closeBtn: 1,
+            content: 'CPUpdate?id=' + id + '',
+            area: ['410px', '300px']
+        });
+    }
+    //展示数据
+    function CPClasse(PageIndex,PageSize) {
+        $.ajax({
+            type: "POST",
+            async: false,
+            url: "/LiuYangXingYu/CPClasses",
+            data: "{PageIndex:'" + PageIndex + "',PageSize:'" + PageSize + "'}",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                $("#td1").empty();
+                $.each(result.DataList, function (index, data) {
+                    $("#td1").append("<tr><td width='155px'>" + data.CId + "</td><td width='155px'> " + data.CName + "</td ><td width='155px'>" + data.CBeiZhu + "</td><td width='155px'><a class='btn btn-default' onclick='CPAdds()'><span class='glyphicon glyphicon-plus'></span>新增</a><a class= 'btn btn-default' onclick='CPUpdates(" + data.CId + ")' > <span class='glyphicon glyphicon-edit'></span>编辑</a ></td></tr>");
+                });
+            },
+            error: function (ex) {
+                alert(ex.responseText);
+            }
+        });
+    }
+    //展示数据
+    function DanWeie(PageIndex, PageSize) {
+        $.ajax({
+            type: "POST",
+            async: false,
+            url: "/LiuYangXingYu/DanWeis",
+            data: "{PageIndex:'" + PageIndex + "',PageSize:'" + PageSize + "'}",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                $("#td2").empty();
+                $.each(result.DataList, function (index, data) {
+                    $("#td2").append("<tr><td width='155px'>" + data.DWId + "</td><td width='155px'>" + data.DWJiLiangName + "</td><td width='155px'><a class='btn btn-default' onclick='DWAdds()'><span class='glyphicon glyphicon-plus'></span>新增</a><a class= 'btn btn-default' onclick='DWUpdates(" + data.DWId + ")' > <span class='glyphicon glyphicon-edit'></span>编辑</a ></td></tr>");
+                });
+            },
+            error: function (ex) {
+                alert(ex.responseText);
+            }
+        });
+    }
+    //跳转到DanWei的添加页面
+    function DWAdds() {
+        parent.layer.open({
+            type: 2,
+            title: '添加单位',
+            shadeClose: true,
+            shade: 0.5,
+            skin: 'layui-layer-rim',
+            closeBtn: 1,
+            content: 'DanWeiAddPage',
+            area: ['410px', '300px']
+        });
+    }
+    //跳转到DanWei的修改页面
+    function DWUpdates(id) {
+        parent.layer.open({
+            type: 2,
+            title: '编辑单位',
+            shadeClose: true,
+            shade: 0.5,
+            skin: 'layui-layer-rim',
+            closeBtn: 1,
+            content: 'DanWeiModifyPage?id=' + id + '',
+            area: ['410px', '300px']
+        });
+    }
+
+    //获取CPClass表总条数
+    function CPRows() {
+        $.ajax({
+            type: "POST",
+            url: "/LiuYangXingYu/CPPaginate",
+            data: "{}",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                //获取总条数
+                rows = result;
+                layui.use(['laypage', 'layer'], function () {
+                    var laypage = layui.laypage
+                        , layer = layui.layer;
+                    //完整功能
+                    laypage.render({
+                        elem: 'btn1'
+                        //设置总条数
+                        , count: rows
+                        , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                //调用我们自己分页的方法
+                                //obj.curr 当前页码
+                                //obj.limit 每页显示条数
+                                CPClasse(obj.curr, obj.limit);
+                            }
+
+                        }
+                    });
+
+                });
+            },
+            error: function (ex) {
+                alert(ex.responseText);
+            }
+        });
+
+    }
+    //获取DanWei表总条数
+    function DWRows() {
+        $.ajax({
+            type: "POST",
+            url: "/LiuYangXingYu/DWPaginate",
+            data: "{}",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                //获取总条数
+                rows = result;
+                layui.use(['laypage', 'layer'], function () {
+                    var laypage = layui.laypage
+                        , layer = layui.layer;
+                    //完整功能
+                    laypage.render({
+                        elem: 'btn2'
+                        //设置总条数
+                        , count: rows
+                        , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                //调用我们自己分页的方法
+                                //obj.curr 当前页码
+                                //obj.limit 每页显示条数
+                                DanWeie(obj.curr, obj.limit);
+                            }
+
+                        }
+                    });
+
+                });
+            },
+            error: function (ex) {
+                alert(ex.responseText);
+            }
+        });
+
+    }
+</script>

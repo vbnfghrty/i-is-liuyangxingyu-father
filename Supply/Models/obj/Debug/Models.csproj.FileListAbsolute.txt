@@ -13,3 +13,4 @@ E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\Models\obj\Debug\Models.cspro
 E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\Models\obj\Debug\Models.csproj.CopyComplete
 E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\Models\obj\Debug\Models.dll
 E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\Models\obj\Debug\Models.pdb
+E:\where\vbnfghrty\i-is-liuyangxinyu-father\Supply\Models\obj\Debug\Models.csprojAssemblyReference.cache

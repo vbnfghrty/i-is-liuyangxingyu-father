@@ -1,0 +1,130 @@
+﻿
+@{
+    Layout = null;
+}
+@using Models;
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>用户信息更改</title>
+    <link href="~/PeiZhi/css/table.css" rel="stylesheet" />
+    <link href="~/PeiZhi/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+    <link href="~/PeiZhi/js/bstable/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body style="background-color: #ecf0f5;font-family: 微软雅黑;color: #475059;min-width: 1000px;overflow: auto">
+    <div class="news_main" 回来，， style="margin-left:5%;margin-top:1%;">
+        <table class="tab" style="margin:20px;">
+            <tr>
+                <td>用户名：</td>
+                <td width="40"></td>
+                <td>
+                    <input type="text" id="name" width="135"/>
+                </td>
+            </tr>
+            <tr>
+                <td height="35"></td>
+            </tr>
+            <tr>
+                <td>账号密码：</td>
+                <td width="40"></td>
+                <td>
+                    <input type="text" id="pwd" width="135" />
+                </td>
+            </tr>
+            <tr>
+                <td height="35"></td>
+            </tr>
+            <tr>
+                <td>选择员工添加用户：</td>
+                <td width="40"></td>
+                <td>
+                    <select class="find_input" style="width:135px;" id="yuanGong">
+                        <option value="0" id="op">请选择</option>
+                        @{ foreach (GeRenZiLiao js in Model as List<GeRenZiLiao>)
+                            {
+                                <option value="@js.ZLId" id="op">编号为: @js.ZLId @js.Name 员工</option>
+                            }
+                        }
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <div style="width:300px;float:left;margin-left:40px;margin-top:5px;">
+            <div style="width:145px;float:left;"><a class="btn btn-default" onclick="OKAdd()"><span class="glyphicon glyphicon-plus"></span>保存</a></div>
+            <div style="width:145px;float:left;"><a class="btn btn-default" onclick="Cancel()"><span class="glyphicon glyphicon-remove"></span>取消</a></div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="~/PeiZhi/js/jquery/jquery-3.4.1.min.js"></script>
+<link href="~/PeiZhi/css/tanKuan/mdialog.css" rel="stylesheet" />
+<script src="~/PeiZhi/js/tanKuan/zepto.min.js"></script>
+<script src="~/PeiZhi/js/tanKuan/mdialog.js"></script>
+<script>
+
+    $("#name").blur(function () {
+        $.ajax({
+            type: "post",
+            url: "/JiangTao/IfLogionNameChongFu",
+            data: "name=" + $("#name").val(),
+            dataType: "text",
+            success: function (rt) {
+                if (rt == "用户名重复!") {
+                    new TipBox({ type: 'tip', str: rt, clickDomCancel: true, setTime: 100005000, hasBtn: true });
+                    $("#name").css("border", "1px solid red");
+                } else {
+                    $("#name").css("border", "1px solid black");
+                }
+            },
+            error: function (ex) {
+                alert(ex.responseText);
+            }
+        });
+    });
+
+    function OKAdd() {
+        if ($("#name").css("border") == "1px solid rgb(255, 0, 0)") {
+            new TipBox({ type: 'tip', str: "请修改重复用户名!", clickDomCancel: true, setTime: 100005000, hasBtn: true });
+            $("#name").focus();
+            return;
+        }
+        if ($("#yuanGong").val()==0) {
+            new TipBox({ type: 'tip', str: "请选择员工后添加账号信息!", clickDomCancel: true, setTime: 100005000, hasBtn: true });
+            return;
+        }
+        if ($("#name").val() == 0) {
+            new TipBox({ type: 'tip', str: "用户名不能为空!", clickDomCancel: true, setTime: 100005000, hasBtn: true });
+            return;
+        }
+        if ($("#pwd").val() == 0) {
+            new TipBox({ type: 'tip', str: "密码不能为空!", clickDomCancel: true, setTime: 100005000, hasBtn: true });
+            return;
+        }
+        $.ajax({
+            type: "post",
+            url: "/JiangTao/OKAddUser",
+            data: { "name": $("#name").val(), "pwd": $("#pwd").val()},
+            dataType: "text",
+            success: function (rt) {
+                if (rt == "新增成功!") {
+                    new TipBox({ type: rt, str: '操作成功', hasBtn: true });
+                    parent.location.reload();
+                    Cancel();
+                } else {
+                    new TipBox({ type: 'tip', str: rt, clickDomCancel: true, setTime: 10000500, hasBtn: true });
+                }
+            },
+            error: function (ex) {
+                alert(ex.responseText);
+            }
+        });
+    }
+
+    function Cancel() {
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    }
+</script>

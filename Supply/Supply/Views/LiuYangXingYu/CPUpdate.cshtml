@@ -1,0 +1,106 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>CPUpdate</title>
+    <link href="~/PeiZhi/css/table.css" rel="stylesheet" />
+    <link href="~/PeiZhi/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+    <link href="~/PeiZhi/js/bstable/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body style="background-color: #ecf0f5;font-family: 微软雅黑;color: #475059;min-width: 1000px;overflow: auto">
+    <div class="news_main" style="margin-left:5%;margin-top:1%;">
+        <table>
+            <tr>
+                <td>类别名称：</td>
+                <td><input type="text" style="width:241px;" id="CPName" /></td>
+            </tr>
+            <tr>
+                <td height="5"></td>
+            </tr>
+            <tr>
+                <td>类别备注：</td>
+                <td><textarea style="width:251px;height:90px;" id="CPremarks"></textarea></td>
+            </tr>
+            <tr>
+                <td height="10"></td>
+            </tr>
+        </table>
+        <div style="width:300px;float:left;margin-left:40px;">
+            <div style="width:145px;float:left;"><a class="btn btn-default" onclick="Update()"><span class="glyphicon glyphicon-plus"></span>编辑</a></div>
+            <div style="width:145px;float:left;"><a class="btn btn-default" onclick="Cancel()"><span class="glyphicon glyphicon-remove"></span>取消</a></div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+    var id = 0;
+    $(function () {
+        id=@Request.QueryString["id"];
+        CPUdates(id);
+    });
+    function Cancel() {
+        if (confirm('确认取消吗？')) {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        }
+    }
+    function Cancel2() {
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    }
+    function CPUdates(id) {
+        $.ajax({
+            type: "post",
+            url: "/LiuYangXingYu/CpidSel",
+            data: "{Cid:'" + id + "'}",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                $("#CPName").val(result[0].CName);
+                $("#CPremarks").val(result[0].CBeiZhu)
+            }
+        });
+    }
+    //进行修改操作
+    function Update() {
+        id =@Request.QueryString["id"];
+        if (confirm('确认编辑吗？')) {
+            $.ajax({
+                type: "POST",
+                url: "/LiuYangXingYu/CPCount",
+                data: "{CPName:'" + $("#CPName").val() + "'}",
+                dataType: "json",
+                contentType: "application/json",
+                success: function (result) {
+                    if (result <= 1) {
+                        $.ajax({
+                            type: "post",
+                            url: "/LiuYangXingYu/CpUpdatese",
+                            data: "{Cid:'" + id + "',CName:'" + $("#CPName").val() + "',CBeiZhu:'" + $("#CPremarks").val() + "'}",
+                            dataType: "json",
+                            contentType: "application/json",
+                            success: function (result) {
+                                if (result > 0) {
+                                    alert("编辑成功！");
+                                    Cancel2();
+                                    parent.location.reload();
+                                } else {
+                                    alert("编辑失败！")
+                                }
+                            }
+                        });
+                    } else {
+                        alert('数据库已有！');
+                    }
+                }
+            });
+        }
+    }
+</script>

@@ -1,0 +1,112 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>JueSeView</title>
+    <link href="~/PeiZhi/css/table.css" rel="stylesheet" />
+    <link href="~/PeiZhi/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+    <link href="~/PeiZhi/js/bstable/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/layui-v2.5.7/layui-v2.5.7/layui/css/layui.css" rel="stylesheet" />
+    <link href="~/layui-v2.5.7/layui-v2.5.7/layui/css/layui.mobile.css" rel="stylesheet" />
+</head>
+<body style="background-color: #ecf0f5;font-family: 微软雅黑;color: #475059;min-width: 1000px;overflow: auto">
+    <div class="news_main">
+        <div class="l_left news_right" style="width:100%;">
+            <h6>角色管理</h6>
+            <div class="clear"></div>
+            <div class="notice_check">
+                <div class="notice_nav r_right paddingBotme">
+                    <P>
+                        <a class="btn btn-default" onclick="Addpage()"><span class="glyphicon glyphicon-plus"></span>新增</a>
+                    </P>
+                </div>
+            </div>
+            <div class="clear">
+                <table style="width:99.4%;" border="1">
+                    <tr style="background-color:#4fe2d9;">
+                        <td>编号</td>
+                        <td>角色内容</td>
+                        <td>创建时间</td>
+                        <td>角色备注</td>
+                        <td>操作</td>
+                    </tr>
+                    <tbody id="tb1">
+                    </tbody>
+                </table>
+            </div>
+            <div id="btn">
+
+            </div>
+            <ul class="news_table department_table">
+                <li>
+                    <table id="table" class="table_style" style="margin: 0 auto"></table>
+                </li>
+            </ul>
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+</body>
+</html>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/layui-v2.5.7/layui-v2.5.7/layui/layui.js"></script>
+<script src="~/layui-v2.5.7/layui-v2.5.7/layui/layui.all.js"></script>
+<script>
+    $(function () {
+        Select();
+    });
+    function DateTime(op) {
+        var date = new Date(parseInt(op.substr(6)));
+        return date.toLocaleDateString();
+    }
+    function Select() {
+        $.ajax({
+            type: "POST",
+            url: "/LiuYangXingYu/JsSelect",
+            data: "{}",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                $("#tb1").empty();
+                $.each(result, function (index, data) {
+                    $("#tb1").append("<tr><td>" + data.JueSeId + "</td><td>" + data.JueSeName + "</td><td>" + DateTime(data.JSTime) + "</td><td>" + data.JSBeiZhu + "</td><td><a class= 'btn btn-default' onclick='UpDatepage(" + data.JueSeId + ")' > <span class='glyphicon glyphicon-edit'></span>编辑</a ></td></tr>");
+                });
+            },
+            error: function (ex) {
+                alert(ex.responseText);
+            }
+        });
+    }
+    //跳转到新增页面
+    function Addpage() {
+        layer.open({
+            type: 2,
+            title: '添加个人资料信息',
+            shadeClose: true,
+            shade: 0.5,
+            skin: 'layui-layer-rim',
+            closeBtn: 1,
+            area: ['400px', '300px'],
+            content: 'JueSeAddView'
+        });
+    }
+    //跳转到修改页面
+    function UpDatepage(id) {
+        layer.open({
+            type: 2,
+            title: '添加个人资料信息',
+            shadeClose: true,
+            shade: 0.5,
+            skin: 'layui-layer-rim',
+            closeBtn: 1,
+            area: ['400px', '300px'],
+            content: 'JueSeUpdateView?id=' + id + ''
+        });
+    }
+</script>

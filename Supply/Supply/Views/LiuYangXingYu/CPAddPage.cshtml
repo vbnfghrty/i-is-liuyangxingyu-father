@@ -1,0 +1,98 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>CPAddPage</title>
+    <link href="~/PeiZhi/css/table.css" rel="stylesheet" />
+    <link href="~/PeiZhi/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+    <link href="~/PeiZhi/js/bstable/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body style="background-color: #ecf0f5;font-family: 微软雅黑;color: #475059;min-width: 1000px;overflow: auto">
+    <div class="news_main" style="margin-left:5%;margin-top:1%;">
+        <table>
+            <tr>
+                <td>类别名称：</td>
+                <td><input type="text" style="width:241px;" id="CPName" /></td>
+            </tr>
+            <tr>
+                <td height="5"></td>
+            </tr>
+            <tr>
+                <td>类别备注：</td>
+                <td><textarea style="width:251px;height:90px;" id="CPremarks"></textarea></td>
+            </tr>
+            <tr>
+                <td height="10"></td>
+            </tr>
+        </table>
+        <div style="width:300px;float:left;margin-left:40px;">
+            <div style="width:145px;float:left;"><a class="btn btn-default" onclick="CPAdds()"><span class="glyphicon glyphicon-plus"></span>添加</a></div>
+            <div style="width:145px;float:left;"><a class="btn btn-default" onclick="Cancel()"><span class="glyphicon glyphicon-remove"></span>取消</a></div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+
+    @*var id =@Request.QueryString["id"];*@
+    $(function () {
+
+    });
+    function Cancel() {
+        if (confirm('你确认取消吗？')) {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        }
+    }
+    function Cancel2() {
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    }
+    function CPAdds() {
+        if ($("#CPName").val() == "" && $("#CPremarks").val() == "")
+        {
+            alert("类别名称和类别备注都不能为空！");
+        }
+        else if ($("#CPName").val() != "" && $("#CPremarks").val() != "")
+        {
+            $.ajax({
+                type: "POST",
+                url: "/LiuYangXingYu/CPCount",
+                data: "{CPName:'" + $("#CPName").val() + "'}",
+                dataType: "json",
+                contentType: "application/json",
+                success: function (result) {
+                    if (result >= 1) {
+                        alert('数据库已有！');
+                        return;
+                    } else if (result <= 0) {
+                        $.ajax({
+                            type: "post",
+                            url: "/LiuYangXingYu/CpAdd",
+                            data: "{cP:{CName:'" + $("#CPName").val() + "',CBeiZhu:'" + $("#CPremarks").val() + "'}}",
+                            dataType: "json",
+                            contentType: "application/json",
+                            success: function (result) {
+                                if (result > 0) {
+                                    alert('新增成功！');
+                                    Cancel2();
+                                    parent.location.reload();
+                                } else {
+                                    alert('新增失败！');
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+            
+        }
+    }
+</script>
